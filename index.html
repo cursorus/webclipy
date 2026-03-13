@@ -17,6 +17,7 @@
 –text-primary: #ffffff;
 –text-secondary: rgba(255,255,255,0.55);
 –accent: #0a84ff;
+–green: #34c759;
 –radius: 13px;
 }
 
@@ -33,117 +34,12 @@ overscroll-behavior: none;
 /* NAV */
 .nav {
 padding: 8px 20px 16px;
-display: flex; align-items: flex-end;
-justify-content: space-between;
+display: flex; flex-direction: column; gap: 2px;
 }
-.nav-left { display: flex; flex-direction: column; gap: 2px; }
-.nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; }
+.nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; color: var(–text-primary); }
 .nav-sub   { font-size: 13px; color: var(–text-secondary); }
 
-.upload-btn {
-width: 34px; height: 34px;
-background: var(–surface2);
-border-radius: 50%; border: none;
-cursor: pointer;
-display: flex; align-items: center; justify-content: center;
-flex-shrink: 0; margin-bottom: 4px;
-transition: background 0.15s, transform 0.1s;
-}
-.upload-btn:active { background: var(–surface3); transform: scale(0.93); }
-.upload-btn svg { width: 17px; height: 17px; }
-
-#fileGallery, #fileCamera, #fileFiles { display: none; }
-
-/* ACTION SHEET */
-.sheet-overlay {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,0.5);
-backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-z-index: 100; align-items: flex-end;
-padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-.sheet-overlay.open { display: flex; }
-.sheet { width: 100%; padding: 0 8px 8px; animation: sheetUp .35s cubic-bezier(0.32,0.72,0,1); }
-@keyframes sheetUp { from{transform:translateY(110%)} to{transform:translateY(0)} }
-
-.sheet-group { background: rgba(44,44,46,0.97); border-radius: 14px; overflow: hidden; margin-bottom: 8px; }
-
-.sheet-item {
-display: flex; align-items: center; justify-content: space-between;
-padding: 17px 20px; font-size: 20px; font-weight: 400;
-color: var(–accent); cursor: pointer; position: relative;
-transition: background 0.12s;
-}
-.sheet-item:active { background: rgba(255,255,255,0.08); }
-.sheet-item + .sheet-item::before {
-content: ‘’; position: absolute; top: 0; left: 0; right: 0;
-height: 0.5px; background: var(–separator);
-}
-.sheet-icon {
-width: 30px; height: 30px; background: var(–surface3);
-border-radius: 7px; display: flex; align-items: center; justify-content: center;
-}
-.sheet-icon svg { width: 16px; height: 16px; }
-
-.sheet-cancel {
-background: rgba(44,44,46,0.97); border-radius: 14px;
-padding: 18px; text-align: center;
-font-size: 20px; font-weight: 600; color: var(–accent);
-cursor: pointer; transition: background 0.12s;
-}
-.sheet-cancel:active { background: rgba(255,255,255,0.08); }
-
-/* MODAL */
-.modal-overlay {
-display: none; position: fixed; inset: 0;
-background: #000; z-index: 200; flex-direction: column;
-}
-.modal-overlay.open { display: flex; }
-
-.modal-nav {
-display: flex; align-items: center; justify-content: space-between;
-padding: calc(env(safe-area-inset-top, 44px) + 10px) 20px 14px;
-background: rgba(28,28,30,0.97);
-backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-border-bottom: 0.5px solid var(–separator);
-flex-shrink: 0;
-}
-.modal-title { font-size: 17px; font-weight: 600; }
-.modal-close { font-size: 17px; background: none; border: none; color: var(–text-secondary); cursor: pointer; padding: 4px 0; }
-.modal-save  { font-size: 17px; background: none; border: none; color: var(–accent); font-weight: 600; cursor: pointer; padding: 4px 0; }
-
-.modal-body { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
-
-/* ICON GRID */
-.icon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 10px; }
-
-.icon-cell { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-
-.icon-preview {
-width: 100%; aspect-ratio: 1;
-border-radius: 22%; object-fit: cover;
-background: var(–surface2); display: block;
-}
-
-.icon-name-input {
-width: 100%; background: none; border: none;
-color: var(–text-primary); font-size: 11px;
-text-align: center; padding: 2px;
-border-bottom: 0.5px solid var(–surface3);
-outline: none; font-family: inherit;
-}
-.icon-name-input:focus { border-bottom-color: var(–accent); }
-
-.icon-bank-select {
-width: 100%; background: var(–surface2); border: none;
-color: var(–text-secondary); font-size: 10px;
-text-align: center; padding: 5px 2px;
-border-radius: 6px; outline: none;
-font-family: inherit; -webkit-appearance: none; cursor: pointer;
-}
-.icon-bank-select.assigned { color: var(–text-primary); background: #1e3a5f; }
-
-/* MAIN LIST */
+/* SECTION */
 .section { margin: 0 20px 32px; }
 .section-header {
 font-size: 13px; font-weight: 400; color: var(–text-secondary);
@@ -151,6 +47,7 @@ text-transform: uppercase; letter-spacing: 0.5px;
 padding: 0 4px; margin-bottom: 8px;
 }
 
+/* LIST */
 .list { background: var(–surface); border-radius: var(–radius); overflow: hidden; }
 
 .list-item {
@@ -163,41 +60,85 @@ content: ‘’; position: absolute; top: 0; left: 58px; right: 0;
 height: 0.5px; background: var(–separator);
 }
 
+/* BANK ICON */
 .bank-icon {
 width: 44px; height: 44px; border-radius: 11px;
-flex-shrink: 0; display: flex; align-items: center;
-justify-content: center; overflow: hidden;
-}
-.bank-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 11px; }
-.bank-icon .fallback {
-width: 100%; height: 100%; border-radius: 11px;
+flex-shrink: 0; overflow: hidden;
+background: var(–surface2);
 display: flex; align-items: center; justify-content: center;
-font-size: 20px; font-weight: 700; color: white;
 }
-.icon-tbank .fallback { background: #FFDD2D; color: #333; }
-.icon-vtb   .fallback { background: #009FDF; }
-.icon-alfa  .fallback { background: #EF3124; }
-.icon-sber  .fallback { background: #21A038; }
+.bank-icon img {
+width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.bank-icon .fallback {
+width: 100%; height: 100%;
+display: flex; align-items: center; justify-content: center;
+font-size: 18px; font-weight: 700; color: white;
+background: var(–surface3);
+border-radius: 11px;
+}
 
 .bank-info { flex: 1; min-width: 0; }
-.bank-name { font-size: 17px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bank-name {
+font-size: 17px; font-weight: 400; color: var(–text-primary);
+white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 .bank-folder { font-size: 13px; color: var(–text-secondary); margin-top: 1px; }
 
+/* TOGGLE — proper iOS style */
 .toggle {
-width: 51px; height: 31px; background: var(–surface2);
-border-radius: 15.5px; position: relative; cursor: pointer;
-transition: background 0.25s; flex-shrink: 0;
+position: relative;
+width: 51px; height: 31px;
+flex-shrink: 0; cursor: pointer;
 }
-.toggle.on { background: #34c759; }
-.toggle::after {
-content: ‘’; position: absolute;
-width: 27px; height: 27px; background: white; border-radius: 50%;
+.toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.toggle-track {
+position: absolute; inset: 0;
+background: var(–surface3);
+border-radius: 15.5px;
+transition: background 0.25s;
+}
+.toggle input:checked + .toggle-track { background: var(–green); }
+.toggle-thumb {
+position: absolute;
+width: 27px; height: 27px;
+background: white; border-radius: 50%;
 top: 2px; left: 2px;
 transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
 box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+pointer-events: none;
 }
-.toggle.on::after { transform: translateX(20px); }
+.toggle input:checked ~ .toggle-thumb { transform: translateX(20px); }
 
+/* LOADING STATE */
+.loading-wrap {
+padding: 32px 20px;
+text-align: center;
+color: var(–text-secondary);
+font-size: 15px;
+display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.spinner {
+width: 28px; height: 28px;
+border: 2.5px solid var(–surface3);
+border-top-color: var(–accent);
+border-radius: 50%;
+animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error-wrap {
+margin: 0 20px;
+background: var(–surface);
+border-radius: var(–radius);
+padding: 20px;
+text-align: center;
+color: #ff453a;
+font-size: 15px;
+line-height: 1.5;
+}
+
+/* GENERATE BTN */
 .generate-btn {
 display: block; width: 100%; padding: 17px;
 background: var(–accent); color: white;
@@ -211,9 +152,10 @@ letter-spacing: -0.2px; -webkit-appearance: none;
 
 .hint {
 text-align: center; font-size: 13px; color: var(–text-secondary);
-margin-top: 10px; padding: 0 20px; line-height: 1.4;
+margin-top: 10px; line-height: 1.4;
 }
 
+/* TOAST */
 .toast {
 position: fixed;
 bottom: calc(env(safe-area-inset-bottom, 0px) + 90px);
@@ -235,125 +177,24 @@ pointer-events: none; z-index: 999;
 <div class="status-bar"></div>
 
 <div class="nav">
-  <div class="nav-left">
-    <div class="nav-title">Иконки банков</div>
-    <div class="nav-sub">Выберите приложения для установки</div>
-  </div>
-  <button class="upload-btn" onclick="openSheet()" title="Загрузить иконки">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="#0a84ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M8 18H16" stroke="#0a84ff" stroke-width="1.8" stroke-linecap="round"/>
-      <rect x="3" y="3" width="18" height="18" rx="5" stroke="#0a84ff" stroke-width="1.5" fill="none"/>
-    </svg>
-  </button>
+  <div class="nav-title">Иконки банков</div>
+  <div class="nav-sub">Выберите приложения для установки</div>
 </div>
-
-<input type="file" id="fileGallery" accept="image/*" multiple>
-<input type="file" id="fileCamera" accept="image/*" capture="environment">
-<input type="file" id="fileFiles"  accept="image/*" multiple>
-
-<!-- ACTION SHEET -->
-
-<div class="sheet-overlay" id="sheet" onclick="sheetBgClick(event)">
-  <div class="sheet">
-    <div class="sheet-group">
-      <div class="sheet-item" onclick="pickSource('gallery')">
-        Медиатека
-        <div class="sheet-icon">
-          <svg viewBox="0 0 24 24" fill="white"><path d="M21 19V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg>
-        </div>
-      </div>
-      <div class="sheet-item" onclick="pickSource('camera')">
-        Сделать снимок
-        <div class="sheet-icon">
-          <svg viewBox="0 0 24 24" fill="white"><path d="M12 15.2A3.2 3.2 0 1115.2 12 3.2 3.2 0 0112 15.2zM20 4h-3.17L15 2H9L7.17 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z"/></svg>
-        </div>
-      </div>
-      <div class="sheet-item" onclick="pickSource('files')">
-        Выбрать файл
-        <div class="sheet-icon">
-          <svg viewBox="0 0 24 24" fill="white"><path d="M20 6h-8l-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2z"/></svg>
-        </div>
-      </div>
-    </div>
-    <div class="sheet-cancel" onclick="closeSheet()">Отменить</div>
-  </div>
-</div>
-
-<!-- PREVIEW MODAL -->
-
-<div class="modal-overlay" id="modal">
-  <div class="modal-nav">
-    <button class="modal-close" onclick="closeModal()">Отмена</button>
-    <div class="modal-title">Загрузить иконки</div>
-    <button class="modal-save" onclick="saveIcons()">Загрузить</button>
-  </div>
-  <div class="modal-body">
-    <div class="icon-grid" id="iconGrid"></div>
-  </div>
-</div>
-
-<!-- MAIN LIST -->
 
 <div class="section">
   <div class="section-header">Приложения</div>
-  <div class="list" id="bankList">
-
-```
-<div class="list-item" data-folder="t_bank" data-name="Т‑Банк" data-url="https://www.tbank.ru">
-  <div class="bank-icon icon-tbank" id="ico-t_bank">
-    <img src="images/t_bank/icon.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
-    <div class="fallback" style="display:none">Т</div>
-  </div>
-  <div class="bank-info">
-    <div class="bank-name">Т‑Банк</div>
-    <div class="bank-folder">images/t_bank/</div>
-  </div>
-  <div class="toggle on" onclick="toggleItem(this)"></div>
-</div>
-
-<div class="list-item" data-folder="vtb" data-name="ВТБ" data-url="https://www.vtb.ru">
-  <div class="bank-icon icon-vtb" id="ico-vtb">
-    <img src="images/vtb/icon.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
-    <div class="fallback" style="display:none">В</div>
-  </div>
-  <div class="bank-info">
-    <div class="bank-name">ВТБ</div>
-    <div class="bank-folder">images/vtb/</div>
-  </div>
-  <div class="toggle on" onclick="toggleItem(this)"></div>
-</div>
-
-<div class="list-item" data-folder="alfa_bank" data-name="Альфа‑Банк" data-url="https://www.alfabank.ru">
-  <div class="bank-icon icon-alfa" id="ico-alfa_bank">
-    <img src="images/alfa_bank/icon.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
-    <div class="fallback" style="display:none">А</div>
-  </div>
-  <div class="bank-info">
-    <div class="bank-name">Альфа‑Банк</div>
-    <div class="bank-folder">images/alfa_bank/</div>
-  </div>
-  <div class="toggle on" onclick="toggleItem(this)"></div>
-</div>
-
-<div class="list-item" data-folder="sber" data-name="Сбербанк" data-url="https://www.sber.ru">
-  <div class="bank-icon icon-sber" id="ico-sber">
-    <img src="images/sber/icon.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
-    <div class="fallback" style="display:none">С</div>
-  </div>
-  <div class="bank-info">
-    <div class="bank-name">Сбербанк</div>
-    <div class="bank-folder">images/sber/</div>
-  </div>
-  <div class="toggle on" onclick="toggleItem(this)"></div>
-</div>
-```
-
+  <div id="listWrap">
+    <div class="loading-wrap">
+      <div class="spinner"></div>
+      Загружаем список…
+    </div>
   </div>
 </div>
 
-<div class="section">
-  <button class="generate-btn" id="genBtn" onclick="generateProfile()">Установить иконки</button>
+<div class="section" id="btnSection" style="display:none">
+  <button class="generate-btn" id="genBtn" onclick="generateProfile()" disabled>
+    Установить иконки
+  </button>
   <div class="hint">Откроется установка профиля iOS.<br>Перейдите в Настройки → Профиль для подтверждения.</div>
 </div>
 
@@ -361,107 +202,114 @@ pointer-events: none; z-index: 999;
 <div class="toast" id="toast"></div>
 
 <script>
-const uploadedIcons = {}; // folder → base64
-let pendingFiles = [];
+const GITHUB_USER = 'cursorus';
+const GITHUB_REPO = 'webclipy';
+const RAW_BASE    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main`;
+const API_BASE    = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents`;
 
-const BANKS = [
-  { folder: 't_bank',    name: 'Т‑Банк' },
-  { folder: 'vtb',       name: 'ВТБ' },
-  { folder: 'alfa_bank', name: 'Альфа‑Банк' },
-  { folder: 'sber',      name: 'Сбербанк' },
-];
+// bank metadata — folder name → display name + url
+// если папка не найдена здесь — берём название из имени папки (underscore → пробел)
+const BANK_META = {
+  't_bank':    { name: 'Т‑Банк',      url: 'https://www.tbank.ru' },
+  'vtb':       { name: 'ВТБ',         url: 'https://www.vtb.ru' },
+  'alfa_bank': { name: 'Альфа‑Банк',  url: 'https://www.alfabank.ru' },
+  'sber':      { name: 'Сбербанк',    url: 'https://www.sber.ru' },
+  'ozon':      { name: 'Озон Банк',   url: 'https://www.ozon.ru' },
+  'yandex':    { name: 'Яндекс Банк', url: 'https://bank.yandex.ru' },
+  'raiffeisen':{ name: 'Райффайзен',  url: 'https://www.raiffeisen.ru' },
+  'gazprom':   { name: 'Газпромбанк', url: 'https://www.gazprombank.ru' },
+};
 
-// ── Sheet ──
-function openSheet() { document.getElementById('sheet').classList.add('open'); }
-function closeSheet() { document.getElementById('sheet').classList.remove('open'); }
-function sheetBgClick(e) { if (e.target.id === 'sheet') closeSheet(); }
+let banks = []; // { folder, name, url, iconUrl }
 
-function pickSource(src) {
-  closeSheet();
-  const map = { gallery: 'fileGallery', camera: 'fileCamera', files: 'fileFiles' };
-  document.getElementById(map[src]).click();
-}
+async function init() {
+  try {
+    // 1. get list of folders inside images/
+    const res = await fetch(`${API_BASE}/images`);
+    if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
+    const entries = await res.json();
+    const folders = entries.filter(e => e.type === 'dir').map(e => e.name);
 
-['fileGallery','fileCamera','fileFiles'].forEach(id => {
-  document.getElementById(id).addEventListener('change', e => {
-    const files = [...e.target.files];
-    e.target.value = '';
-    if (files.length) openModal(files);
-  });
-});
-
-// ── Modal ──
-function openModal(files) {
-  pendingFiles = files;
-  const grid = document.getElementById('iconGrid');
-  grid.innerHTML = '';
-
-  files.forEach((file, i) => {
-    const url = URL.createObjectURL(file);
-    const guessName = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-
-    const cell = document.createElement('div');
-    cell.className = 'icon-cell';
-    cell.innerHTML = `
-      <img class="icon-preview" src="${url}">
-      <input class="icon-name-input" type="text" value="${guessName}" placeholder="Название">
-      <select class="icon-bank-select" onchange="this.classList.toggle('assigned',this.value!=='')">
-        <option value="">— банк —</option>
-        ${BANKS.map(b=>`<option value="${b.folder}">${b.name}</option>`).join('')}
-      </select>`;
-    grid.appendChild(cell);
-  });
-
-  document.getElementById('modal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-  document.querySelectorAll('#iconGrid .icon-preview').forEach(img => URL.revokeObjectURL(img.src));
-  pendingFiles = [];
-}
-
-async function saveIcons() {
-  const cells = document.querySelectorAll('#iconGrid .icon-cell');
-  let saved = 0;
-
-  for (let i = 0; i < pendingFiles.length; i++) {
-    const sel = cells[i].querySelector('.icon-bank-select');
-    const folder = sel.value;
-    if (!folder) continue;
-
-    const b64 = await fileToBase64(pendingFiles[i]);
-    uploadedIcons[folder] = b64;
-
-    // update preview in main list
-    const wrap = document.getElementById('ico-' + folder);
-    if (wrap) {
-      const img = wrap.querySelector('img');
-      const fb  = wrap.querySelector('.fallback');
-      img.src = 'data:image/png;base64,' + b64;
-      img.style.display = '';
-      if (fb) fb.style.display = 'none';
+    if (!folders.length) {
+      showError('Папка images/ пуста или не найдена в репозитории.');
+      return;
     }
-    saved++;
+
+    // 2. for each folder — find first image file
+    const fetches = folders.map(async folder => {
+      const r = await fetch(`${API_BASE}/images/${folder}`);
+      if (!r.ok) return null;
+      const files = await r.json();
+      const img = files.find(f => f.type === 'file' && /\.(png|svg|jpg|jpeg|webp)$/i.test(f.name));
+      if (!img) return null;
+      const meta = BANK_META[folder] || { name: folder.replace(/_/g, ' '), url: '#' };
+      return {
+        folder,
+        name: meta.name,
+        url: meta.url,
+        iconUrl: `${RAW_BASE}/images/${folder}/${img.name}`,
+        iconFile: img.name,
+      };
+    });
+
+    const results = (await Promise.all(fetches)).filter(Boolean);
+    if (!results.length) {
+      showError('Не найдено ни одной иконки в папках images/.');
+      return;
+    }
+
+    banks = results;
+    renderList();
+
+  } catch (e) {
+    showError('Не удалось загрузить список с GitHub.<br>' + e.message);
   }
-
-  closeModal();
-  showToast(saved > 0 ? `Загружено иконок: ${saved}` : 'Не назначен ни один банк');
 }
 
-function fileToBase64(file) {
-  return new Promise(resolve => {
-    const r = new FileReader();
-    r.onload = e => resolve(e.target.result.split(',')[1]);
-    r.readAsDataURL(file);
+function renderList() {
+  const wrap = document.getElementById('listWrap');
+  wrap.innerHTML = '';
+
+  const list = document.createElement('div');
+  list.className = 'list';
+  list.id = 'bankList';
+
+  banks.forEach(bank => {
+    const item = document.createElement('div');
+    item.className = 'list-item';
+    item.dataset.folder = bank.folder;
+
+    const toggleId = 'tog_' + bank.folder;
+
+    item.innerHTML = `
+      <div class="bank-icon">
+        <img src="${bank.iconUrl}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="fallback" style="display:none">${bank.name[0]}</div>
+      </div>
+      <div class="bank-info">
+        <div class="bank-name">${bank.name}</div>
+        <div class="bank-folder">images/${bank.folder}/${bank.iconFile}</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="${toggleId}" checked onchange="updateButton()">
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>`;
+
+    list.appendChild(item);
   });
+
+  wrap.appendChild(list);
+  document.getElementById('btnSection').style.display = '';
+  updateButton();
 }
 
-// ── Toggles ──
-function toggleItem(el) { el.classList.toggle('on'); updateButton(); }
+function showError(msg) {
+  document.getElementById('listWrap').innerHTML = `<div class="error-wrap">${msg}</div>`;
+}
 
 function updateButton() {
-  const n = document.querySelectorAll('#bankList .toggle.on').length;
+  const n = document.querySelectorAll('#bankList input[type=checkbox]:checked').length;
   const btn = document.getElementById('genBtn');
   btn.disabled = n === 0;
   btn.textContent = n > 0 ? `Установить иконки (${n})` : 'Выберите хотя бы одну';
@@ -473,38 +321,34 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ── Profile generation ──
-function imgPathToBase64(src) {
-  return new Promise(resolve => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      const c = document.createElement('canvas');
-      c.width = img.naturalWidth; c.height = img.naturalHeight;
-      c.getContext('2d').drawImage(img, 0, 0);
-      resolve(c.toDataURL('image/png').split(',')[1]);
-    };
-    img.onerror = () => resolve(null);
-    img.src = src + '?t=' + Date.now();
-  });
+async function fetchIconBase64(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result.split(',')[1]);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    });
+  } catch { return null; }
 }
 
 async function generateProfile() {
   const btn = document.getElementById('genBtn');
   btn.disabled = true; btn.textContent = 'Генерация…';
 
-  const items = [...document.querySelectorAll('#bankList .list-item')]
-    .filter(el => el.querySelector('.toggle.on'));
+  const selected = banks.filter(b => {
+    const cb = document.getElementById('tog_' + b.folder);
+    return cb && cb.checked;
+  });
 
   const clips = [];
 
-  for (const item of items) {
-    const folder = item.dataset.folder;
-    const name   = item.dataset.name;
-    const url    = item.dataset.url;
-    const label  = folder.replace(/_/g, ' ');
-
-    let b64 = uploadedIcons[folder] || await imgPathToBase64(`images/${folder}/icon.png`);
+  for (const bank of selected) {
+    const b64 = await fetchIconBase64(bank.iconUrl);
+    const label = bank.folder.replace(/_/g, ' ');
 
     clips.push(`
     <dict>
@@ -512,8 +356,8 @@ async function generateProfile() {
       <key>PayloadIdentifier</key><string>ru.banks.icons.${label.replace(/ /g,'.')}</string>
       <key>PayloadUUID</key><string>${crypto.randomUUID()}</string>
       <key>PayloadVersion</key><integer>1</integer>
-      <key>Label</key><string>${name}</string>
-      <key>URL</key><string>${url}</string>
+      <key>Label</key><string>${bank.name}</string>
+      <key>URL</key><string>${bank.url}</string>
       <key>IsRemovable</key><false/>
       <key>FullScreen</key><true/>${b64 ? `\n      <key>Icon</key><data>${b64}</data>` : ''}
     </dict>`);
@@ -549,7 +393,7 @@ async function generateProfile() {
   updateButton();
 }
 
-updateButton();
+init();
 </script>
 
 </body>
