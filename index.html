@@ -31,23 +31,17 @@ overscroll-behavior: none;
 
 .status-bar { height: env(safe-area-inset-top, 44px); }
 
-/* NAV */
-.nav {
-padding: 8px 20px 16px;
-display: flex; flex-direction: column; gap: 2px;
-}
-.nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; color: var(–text-primary); }
+.nav { padding: 8px 20px 16px; display: flex; flex-direction: column; gap: 2px; }
+.nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; }
 .nav-sub   { font-size: 13px; color: var(–text-secondary); }
 
-/* SECTION */
 .section { margin: 0 20px 32px; }
 .section-header {
-font-size: 13px; font-weight: 400; color: var(–text-secondary);
+font-size: 13px; color: var(–text-secondary);
 text-transform: uppercase; letter-spacing: 0.5px;
 padding: 0 4px; margin-bottom: 8px;
 }
 
-/* LIST */
 .list { background: var(–surface); border-radius: var(–radius); overflow: hidden; }
 
 .list-item {
@@ -60,62 +54,49 @@ content: ‘’; position: absolute; top: 0; left: 58px; right: 0;
 height: 0.5px; background: var(–separator);
 }
 
-/* BANK ICON */
 .bank-icon {
 width: 44px; height: 44px; border-radius: 11px;
 flex-shrink: 0; overflow: hidden;
 background: var(–surface2);
 display: flex; align-items: center; justify-content: center;
 }
-.bank-icon img {
-width: 100%; height: 100%; object-fit: cover; display: block;
-}
+.bank-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .bank-icon .fallback {
-width: 100%; height: 100%;
+width: 100%; height: 100%; border-radius: 11px;
 display: flex; align-items: center; justify-content: center;
 font-size: 18px; font-weight: 700; color: white;
 background: var(–surface3);
-border-radius: 11px;
 }
 
 .bank-info { flex: 1; min-width: 0; }
 .bank-name {
-font-size: 17px; font-weight: 400; color: var(–text-primary);
+font-size: 17px; font-weight: 400;
 white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.bank-folder { font-size: 13px; color: var(–text-secondary); margin-top: 1px; }
+.bank-count { font-size: 13px; color: var(–text-secondary); margin-top: 1px; }
 
-/* TOGGLE — proper iOS style */
-.toggle {
-position: relative;
-width: 51px; height: 31px;
-flex-shrink: 0; cursor: pointer;
-}
+/* proper iOS toggle */
+.toggle { position: relative; width: 51px; height: 31px; flex-shrink: 0; cursor: pointer; }
 .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
 .toggle-track {
 position: absolute; inset: 0;
-background: var(–surface3);
-border-radius: 15.5px;
+background: var(–surface3); border-radius: 15.5px;
 transition: background 0.25s;
 }
 .toggle input:checked + .toggle-track { background: var(–green); }
 .toggle-thumb {
 position: absolute;
-width: 27px; height: 27px;
-background: white; border-radius: 50%;
-top: 2px; left: 2px;
+width: 27px; height: 27px; background: white; border-radius: 50%;
+top: 2px; left: 2px; pointer-events: none;
 transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
 box-shadow: 0 2px 6px rgba(0,0,0,0.35);
-pointer-events: none;
 }
 .toggle input:checked ~ .toggle-thumb { transform: translateX(20px); }
 
-/* LOADING STATE */
+/* loading / error */
 .loading-wrap {
-padding: 32px 20px;
-text-align: center;
-color: var(–text-secondary);
-font-size: 15px;
+padding: 32px 20px; text-align: center;
+color: var(–text-secondary); font-size: 15px;
 display: flex; flex-direction: column; align-items: center; gap: 12px;
 }
 .spinner {
@@ -128,24 +109,18 @@ animation: spin 0.7s linear infinite;
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .error-wrap {
-margin: 0 20px;
-background: var(–surface);
-border-radius: var(–radius);
-padding: 20px;
-text-align: center;
-color: #ff453a;
-font-size: 15px;
-line-height: 1.5;
+background: var(–surface); border-radius: var(–radius);
+padding: 20px; text-align: center;
+color: #ff453a; font-size: 15px; line-height: 1.5;
 }
 
-/* GENERATE BTN */
 .generate-btn {
 display: block; width: 100%; padding: 17px;
 background: var(–accent); color: white;
 font-size: 17px; font-weight: 600; border: none;
 border-radius: var(–radius); cursor: pointer; text-align: center;
 transition: opacity 0.15s, transform 0.1s;
-letter-spacing: -0.2px; -webkit-appearance: none;
+-webkit-appearance: none;
 }
 .generate-btn:active { opacity: 0.8; transform: scale(0.98); }
 .generate-btn:disabled { opacity: 0.4; }
@@ -155,7 +130,6 @@ text-align: center; font-size: 13px; color: var(–text-secondary);
 margin-top: 10px; line-height: 1.4;
 }
 
-/* TOAST */
 .toast {
 position: fixed;
 bottom: calc(env(safe-area-inset-bottom, 0px) + 90px);
@@ -178,11 +152,11 @@ pointer-events: none; z-index: 999;
 
 <div class="nav">
   <div class="nav-title">Иконки банков</div>
-  <div class="nav-sub">Выберите приложения для установки</div>
+  <div class="nav-sub">Выберите папки для установки</div>
 </div>
 
 <div class="section">
-  <div class="section-header">Приложения</div>
+  <div class="section-header">Папки</div>
   <div id="listWrap">
     <div class="loading-wrap">
       <div class="spinner"></div>
@@ -207,91 +181,85 @@ const GITHUB_REPO = 'webclipy';
 const RAW_BASE    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main`;
 const API_BASE    = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents`;
 
-// bank metadata — folder name → display name + url
-// если папка не найдена здесь — берём название из имени папки (underscore → пробел)
-const BANK_META = {
-  't_bank':    { name: 'Т‑Банк',      url: 'https://www.tbank.ru' },
-  'vtb':       { name: 'ВТБ',         url: 'https://www.vtb.ru' },
-  'alfa_bank': { name: 'Альфа‑Банк',  url: 'https://www.alfabank.ru' },
-  'sber':      { name: 'Сбербанк',    url: 'https://www.sber.ru' },
-  'ozon':      { name: 'Озон Банк',   url: 'https://www.ozon.ru' },
-  'yandex':    { name: 'Яндекс Банк', url: 'https://bank.yandex.ru' },
-  'raiffeisen':{ name: 'Райффайзен',  url: 'https://www.raiffeisen.ru' },
-  'gazprom':   { name: 'Газпромбанк', url: 'https://www.gazprombank.ru' },
+// folder → { name, url } overrides
+const FOLDER_META = {
+  't_bank':     { name: 'Т‑Банк',      url: 'https://www.tbank.ru' },
+  'vtb':        { name: 'ВТБ',         url: 'https://www.vtb.ru' },
+  'alfa_bank':  { name: 'Альфа‑Банк',  url: 'https://www.alfabank.ru' },
+  'sber':       { name: 'Сбербанк',    url: 'https://www.sber.ru' },
+  'ozon':       { name: 'Озон Банк',   url: 'https://www.ozon.ru' },
+  'yandex':     { name: 'Яндекс Банк', url: 'https://bank.yandex.ru' },
+  'raiffeisen': { name: 'Райффайзен',  url: 'https://www.raiffeisen.ru' },
+  'gazprom':    { name: 'Газпромбанк', url: 'https://www.gazprombank.ru' },
 };
 
-let banks = []; // { folder, name, url, iconUrl }
+// folders: [{ folder, name, url, previewUrl, files: [{name, url}] }]
+let folders = [];
 
 async function init() {
   try {
-    // 1. get list of folders inside images/
     const res = await fetch(`${API_BASE}/images`);
     if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
     const entries = await res.json();
-    const folders = entries.filter(e => e.type === 'dir').map(e => e.name);
+    const dirs = entries.filter(e => e.type === 'dir');
 
-    if (!folders.length) {
-      showError('Папка images/ пуста или не найдена в репозитории.');
-      return;
-    }
+    if (!dirs.length) { showError('Папка images/ пуста.'); return; }
 
-    // 2. for each folder — find first image file
-    const fetches = folders.map(async folder => {
-      const r = await fetch(`${API_BASE}/images/${folder}`);
+    const fetches = dirs.map(async dir => {
+      const r = await fetch(`${API_BASE}/images/${dir.name}`);
       if (!r.ok) return null;
       const files = await r.json();
-      const img = files.find(f => f.type === 'file' && /\.(png|svg|jpg|jpeg|webp)$/i.test(f.name));
-      if (!img) return null;
-      const meta = BANK_META[folder] || { name: folder.replace(/_/g, ' '), url: '#' };
+      const imgFiles = files
+        .filter(f => f.type === 'file' && /\.(png|svg|jpg|jpeg|webp)$/i.test(f.name))
+        .map(f => ({ name: f.name, url: `${RAW_BASE}/images/${dir.name}/${f.name}` }));
+      if (!imgFiles.length) return null;
+
+      const meta = FOLDER_META[dir.name] || {
+        name: dir.name.replace(/_/g, ' '),
+        url: '#'
+      };
+
       return {
-        folder,
+        folder: dir.name,
         name: meta.name,
         url: meta.url,
-        iconUrl: `${RAW_BASE}/images/${folder}/${img.name}`,
-        iconFile: img.name,
+        previewUrl: imgFiles[0].url,
+        files: imgFiles,
       };
     });
 
-    const results = (await Promise.all(fetches)).filter(Boolean);
-    if (!results.length) {
-      showError('Не найдено ни одной иконки в папках images/.');
-      return;
-    }
+    folders = (await Promise.all(fetches)).filter(Boolean);
+    if (!folders.length) { showError('Нет папок с изображениями.'); return; }
 
-    banks = results;
     renderList();
-
   } catch (e) {
-    showError('Не удалось загрузить список с GitHub.<br>' + e.message);
+    showError('Не удалось загрузить список.<br>' + e.message);
   }
 }
 
 function renderList() {
   const wrap = document.getElementById('listWrap');
-  wrap.innerHTML = '';
-
   const list = document.createElement('div');
   list.className = 'list';
   list.id = 'bankList';
 
-  banks.forEach(bank => {
+  folders.forEach(f => {
     const item = document.createElement('div');
     item.className = 'list-item';
-    item.dataset.folder = bank.folder;
 
-    const toggleId = 'tog_' + bank.folder;
-
+    const firstLetter = f.name[0].toUpperCase();
     item.innerHTML = `
       <div class="bank-icon">
-        <img src="${bank.iconUrl}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="fallback" style="display:none">${bank.name[0]}</div>
+        <img src="${f.previewUrl}" alt=""
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="fallback" style="display:none">${firstLetter}</div>
       </div>
       <div class="bank-info">
-        <div class="bank-name">${bank.name}</div>
-        <div class="bank-folder">images/${bank.folder}/${bank.iconFile}</div>
+        <div class="bank-name">${f.name}</div>
+        <div class="bank-count">${f.files.length} иконок${f.files.length === 1 ? 'а' : f.files.length < 5 ? 'и' : ''}</div>
       </div>
       <label class="toggle">
-        <input type="checkbox" id="${toggleId}" checked onchange="updateButton()">
+        <input type="checkbox" checked onchange="updateButton()">
         <div class="toggle-track"></div>
         <div class="toggle-thumb"></div>
       </label>`;
@@ -299,6 +267,7 @@ function renderList() {
     list.appendChild(item);
   });
 
+  wrap.innerHTML = '';
   wrap.appendChild(list);
   document.getElementById('btnSection').style.display = '';
   updateButton();
@@ -309,10 +278,17 @@ function showError(msg) {
 }
 
 function updateButton() {
-  const n = document.querySelectorAll('#bankList input[type=checkbox]:checked').length;
+  const checks = document.querySelectorAll('#bankList input[type=checkbox]');
+  const n = [...checks].filter(c => c.checked).length;
+  // count total icons selected
+  let totalIcons = 0;
+  checks.forEach((c, i) => { if (c.checked) totalIcons += folders[i].files.length; });
+
   const btn = document.getElementById('genBtn');
   btn.disabled = n === 0;
-  btn.textContent = n > 0 ? `Установить иконки (${n})` : 'Выберите хотя бы одну';
+  btn.textContent = n > 0
+    ? `Установить иконки (${totalIcons})`
+    : 'Выберите хотя бы одну папку';
 }
 
 function showToast(msg) {
@@ -339,35 +315,36 @@ async function generateProfile() {
   const btn = document.getElementById('genBtn');
   btn.disabled = true; btn.textContent = 'Генерация…';
 
-  const selected = banks.filter(b => {
-    const cb = document.getElementById('tog_' + b.folder);
-    return cb && cb.checked;
-  });
+  const checks = document.querySelectorAll('#bankList input[type=checkbox]');
+  const selected = folders.filter((_, i) => checks[i] && checks[i].checked);
 
   const clips = [];
 
-  for (const bank of selected) {
-    const b64 = await fetchIconBase64(bank.iconUrl);
-    const label = bank.folder.replace(/_/g, ' ');
+  for (const folder of selected) {
+    for (const file of folder.files) {
+      // label = filename without extension
+      const label = file.name.replace(/\.[^.]+$/, '');
+      const b64 = await fetchIconBase64(file.url);
 
-    clips.push(`
+      clips.push(`
     <dict>
       <key>PayloadType</key><string>com.apple.webClip.managed</string>
-      <key>PayloadIdentifier</key><string>ru.banks.icons.${label.replace(/ /g,'.')}</string>
+      <key>PayloadIdentifier</key><string>ru.banks.icons.${folder.folder}.${label.replace(/[^a-zA-Z0-9]/g,'_')}</string>
       <key>PayloadUUID</key><string>${crypto.randomUUID()}</string>
       <key>PayloadVersion</key><integer>1</integer>
-      <key>Label</key><string>${bank.name}</string>
-      <key>URL</key><string>${bank.url}</string>
+      <key>Label</key><string>${label}</string>
+      <key>URL</key><string>${folder.url}</string>
       <key>IsRemovable</key><false/>
       <key>FullScreen</key><true/>${b64 ? `\n      <key>Icon</key><data>${b64}</data>` : ''}
     </dict>`);
+    }
   }
 
   const plist = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
   <key>PayloadDisplayName</key><string>Иконки банков</string>
-  <key>PayloadDescription</key><string>Добавляет иконки банков на домашний экран</string>
+  <key>PayloadDescription</key><string>Добавляет иконки на домашний экран</string>
   <key>PayloadIdentifier</key><string>ru.banks.icons.profile</string>
   <key>PayloadUUID</key><string>${crypto.randomUUID()}</string>
   <key>PayloadType</key><string>Configuration</string>
