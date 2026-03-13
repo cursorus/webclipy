@@ -75,7 +75,6 @@ white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .bank-count { font-size: 13px; color: var(–text-secondary); margin-top: 1px; }
 
-/* proper iOS toggle */
 .toggle { position: relative; width: 51px; height: 31px; flex-shrink: 0; cursor: pointer; }
 .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
 .toggle-track {
@@ -93,7 +92,6 @@ box-shadow: 0 2px 6px rgba(0,0,0,0.35);
 }
 .toggle input:checked ~ .toggle-thumb { transform: translateX(20px); }
 
-/* loading / error */
 .loading-wrap {
 padding: 32px 20px; text-align: center;
 color: var(–text-secondary); font-size: 15px;
@@ -181,7 +179,6 @@ const GITHUB_REPO = 'webclipy';
 const RAW_BASE    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main`;
 const API_BASE    = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents`;
 
-// folder → { name, url } overrides
 const FOLDER_META = {
   't_bank':     { name: 'Т‑Банк',      url: 'https://www.tbank.ru' },
   'vtb':        { name: 'ВТБ',         url: 'https://www.vtb.ru' },
@@ -193,7 +190,6 @@ const FOLDER_META = {
   'gazprom':    { name: 'Газпромбанк', url: 'https://www.gazprombank.ru' },
 };
 
-// folders: [{ folder, name, url, previewUrl, files: [{name, url}] }]
 let folders = [];
 
 async function init() {
@@ -202,7 +198,6 @@ async function init() {
     if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
     const entries = await res.json();
     const dirs = entries.filter(e => e.type === 'dir');
-
     if (!dirs.length) { showError('Папка images/ пуста.'); return; }
 
     const fetches = dirs.map(async dir => {
@@ -219,51 +214,46 @@ async function init() {
         url: '#'
       };
 
-      return {
-        folder: dir.name,
-        name: meta.name,
-        url: meta.url,
-        previewUrl: imgFiles[0].url,
-        files: imgFiles,
-      };
+      return { folder: dir.name, name: meta.name, url: meta.url, previewUrl: imgFiles[0].url, files: imgFiles };
     });
 
     folders = (await Promise.all(fetches)).filter(Boolean);
     if (!folders.length) { showError('Нет папок с изображениями.'); return; }
-
     renderList();
   } catch (e) {
     showError('Не удалось загрузить список.<br>' + e.message);
   }
 }
 
+function pluralIcons(n) {
+  if (n % 10 === 1 && n % 100 !== 11) return `${n} иконка`;
+  if ([2,3,4].includes(n % 10) && ![12,13,14].includes(n % 100)) return `${n} иконки`;
+  return `${n} иконок`;
+}
+
 function renderList() {
   const wrap = document.getElementById('listWrap');
   const list = document.createElement('div');
-  list.className = 'list';
-  list.id = 'bankList';
+  list.className = 'list'; list.id = 'bankList';
 
   folders.forEach(f => {
     const item = document.createElement('div');
     item.className = 'list-item';
-
-    const firstLetter = f.name[0].toUpperCase();
     item.innerHTML = `
       <div class="bank-icon">
         <img src="${f.previewUrl}" alt=""
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="fallback" style="display:none">${firstLetter}</div>
+        <div class="fallback" style="display:none">${f.name[0].toUpperCase()}</div>
       </div>
       <div class="bank-info">
         <div class="bank-name">${f.name}</div>
-        <div class="bank-count">${f.files.length} иконок${f.files.length === 1 ? 'а' : f.files.length < 5 ? 'и' : ''}</div>
+        <div class="bank-count">${pluralIcons(f.files.length)}</div>
       </div>
       <label class="toggle">
         <input type="checkbox" checked onchange="updateButton()">
         <div class="toggle-track"></div>
         <div class="toggle-thumb"></div>
       </label>`;
-
     list.appendChild(item);
   });
 
@@ -278,17 +268,12 @@ function showError(msg) {
 }
 
 function updateButton() {
-  const checks = document.querySelectorAll('#bankList input[type=checkbox]');
-  const n = [...checks].filter(c => c.checked).length;
-  // count total icons selected
+  const checks = [...document.querySelectorAll('#bankList input[type=checkbox]')];
   let totalIcons = 0;
   checks.forEach((c, i) => { if (c.checked) totalIcons += folders[i].files.length; });
-
   const btn = document.getElementById('genBtn');
-  btn.disabled = n === 0;
-  btn.textContent = n > 0
-    ? `Установить иконки (${totalIcons})`
-    : 'Выберите хотя бы одну папку';
+  btn.disabled = totalIcons === 0;
+  btn.textContent = totalIcons > 0 ? `Установить иконки (${totalIcons})` : 'Выберите хотя бы одну папку';
 }
 
 function showToast(msg) {
@@ -297,34 +282,36 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-async function fetchIconBase64(url) {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    const blob = await res.blob();
-    return new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = e => resolve(e.target.result.split(',')[1]);
-      reader.onerror = () => resolve(null);
-      reader.readAsDataURL(blob);
-    });
-  } catch { return null; }
+// Загружает любой img (PNG/SVG/JPG) и конвертирует в 120×120 PNG через canvas
+function urlToPng120(url) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 120; canvas.height = 120;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, 120, 120);
+      resolve(canvas.toDataURL('image/png').split(',')[1]);
+    };
+    img.onerror = () => resolve(null);
+    img.src = url;
+  });
 }
 
 async function generateProfile() {
   const btn = document.getElementById('genBtn');
   btn.disabled = true; btn.textContent = 'Генерация…';
 
-  const checks = document.querySelectorAll('#bankList input[type=checkbox]');
+  const checks = [...document.querySelectorAll('#bankList input[type=checkbox]')];
   const selected = folders.filter((_, i) => checks[i] && checks[i].checked);
 
   const clips = [];
 
   for (const folder of selected) {
     for (const file of folder.files) {
-      // label = filename without extension
-      const label = file.name.replace(/\.[^.]+$/, '');
-      const b64 = await fetchIconBase64(file.url);
+      const label = file.name.replace(/\.[^.]+$/, ''); // filename without extension
+      const b64 = await urlToPng120(file.url);         // always 120×120 PNG
 
       clips.push(`
     <dict>
@@ -361,8 +348,7 @@ async function generateProfile() {
     window.location.href = blobUrl;
     showToast('Открываем установку профиля…');
   } else {
-    const a = document.createElement('a');
-    a.href = blobUrl; a.download = 'banks.mobileconfig'; a.click();
+    const a = document.createElement('a'); a.href = blobUrl; a.download = 'banks.mobileconfig'; a.click();
     showToast('Профиль скачан — установите на iPhone');
   }
 
