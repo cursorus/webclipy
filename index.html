@@ -6,7 +6,6 @@
 <title>Иконки банков</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
   :root {
     --bg: #000;
     --surface: #1c1c1e;
@@ -19,128 +18,57 @@
     --green: #34c759;
     --radius: 13px;
   }
-
-  html, body {
-    background: var(--bg); color: var(--text-primary);
-    font-family: -apple-system, 'Helvetica Neue', sans-serif;
-    min-height: 100dvh; overscroll-behavior: none;
-  }
-
+  html, body { background: var(--bg); color: var(--text-primary); font-family: -apple-system, 'Helvetica Neue', sans-serif; min-height: 100dvh; overscroll-behavior: none; }
   .status-bar { height: env(safe-area-inset-top, 44px); }
   .nav { padding: 8px 20px 16px; display: flex; flex-direction: column; gap: 2px; }
   .nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; }
   .nav-sub { font-size: 13px; color: var(--text-secondary); }
-
   .section { margin: 0 20px 32px; }
-  .section-header {
-    font-size: 13px; color: var(--text-secondary);
-    text-transform: uppercase; letter-spacing: 0.5px;
-    padding: 0 4px; margin-bottom: 8px;
-  }
-
+  .section-header { font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; padding: 0 4px; margin-bottom: 8px; }
   .list { background: var(--surface); border-radius: var(--radius); overflow: hidden; }
-  .list-item {
-    display: flex; align-items: center;
-    padding: 12px 16px; gap: 14px;
-    position: relative; user-select: none;
-  }
-  .list-item + .list-item::before {
-    content: ''; position: absolute; top: 0; left: 58px; right: 0;
-    height: 0.5px; background: var(--separator);
-  }
-
-  .bank-icon {
-    width: 44px; height: 44px; border-radius: 11px;
-    flex-shrink: 0; overflow: hidden; background: var(--surface2);
-    display: flex; align-items: center; justify-content: center;
-  }
+  .list-item { display: flex; align-items: center; padding: 12px 16px; gap: 14px; position: relative; user-select: none; }
+  .list-item + .list-item::before { content: ''; position: absolute; top: 0; left: 58px; right: 0; height: 0.5px; background: var(--separator); }
+  .bank-icon { width: 44px; height: 44px; border-radius: 11px; flex-shrink: 0; overflow: hidden; background: var(--surface2); display: flex; align-items: center; justify-content: center; }
   .bank-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .bank-icon .fallback {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 700; color: white; background: var(--surface3);
-  }
-
+  .bank-icon .fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: white; background: var(--surface3); }
   .bank-info { flex: 1; min-width: 0; }
   .bank-name { font-size: 17px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bank-count { font-size: 13px; color: var(--text-secondary); margin-top: 1px; }
-
   .toggle { position: relative; width: 51px; height: 31px; flex-shrink: 0; cursor: pointer; }
   .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
   .toggle-track { position: absolute; inset: 0; background: var(--surface3); border-radius: 15.5px; transition: background 0.25s; }
   .toggle input:checked + .toggle-track { background: var(--green); }
-  .toggle-thumb {
-    position: absolute; width: 27px; height: 27px; background: white; border-radius: 50%;
-    top: 2px; left: 2px; pointer-events: none;
-    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
-  }
+  .toggle-thumb { position: absolute; width: 27px; height: 27px; background: white; border-radius: 50%; top: 2px; left: 2px; pointer-events: none; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 2px 6px rgba(0,0,0,0.35); }
   .toggle input:checked ~ .toggle-thumb { transform: translateX(20px); }
-
-  .loading-wrap {
-    padding: 32px 20px; text-align: center;
-    color: var(--text-secondary); font-size: 15px;
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
-  }
-  .spinner {
-    width: 28px; height: 28px;
-    border: 2.5px solid var(--surface3); border-top-color: var(--accent);
-    border-radius: 50%; animation: spin 0.7s linear infinite;
-  }
+  .loading-wrap { padding: 32px 20px; text-align: center; color: var(--text-secondary); font-size: 15px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .spinner { width: 28px; height: 28px; border: 2.5px solid var(--surface3); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  .error-wrap {
-    background: var(--surface); border-radius: var(--radius);
-    padding: 20px; text-align: center; color: #ff453a; font-size: 15px; line-height: 1.5;
-  }
-
-  .generate-btn {
-    display: block; width: 100%; padding: 17px;
-    background: var(--accent); color: white;
-    font-size: 17px; font-weight: 600; border: none;
-    border-radius: var(--radius); cursor: pointer; text-align: center;
-    transition: opacity 0.15s, transform 0.1s; -webkit-appearance: none;
-  }
+  .error-wrap { background: var(--surface); border-radius: var(--radius); padding: 20px; text-align: center; color: #ff453a; font-size: 15px; line-height: 1.5; }
+  .generate-btn { display: block; width: 100%; padding: 17px; background: var(--accent); color: white; font-size: 17px; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; text-align: center; transition: opacity 0.15s, transform 0.1s; -webkit-appearance: none; }
   .generate-btn:active { opacity: 0.8; transform: scale(0.98); }
   .generate-btn:disabled { opacity: 0.4; }
-
   .hint { text-align: center; font-size: 13px; color: var(--text-secondary); margin-top: 10px; line-height: 1.4; }
-
-  .toast {
-    position: fixed;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 90px);
-    left: 50%; transform: translateX(-50%) translateY(20px);
-    background: rgba(50,50,52,0.95);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    color: white; padding: 12px 20px; border-radius: 20px;
-    font-size: 15px; font-weight: 500; white-space: nowrap;
-    opacity: 0; transition: opacity 0.3s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    pointer-events: none; z-index: 999;
-  }
+  .toast { position: fixed; bottom: calc(env(safe-area-inset-bottom, 0px) + 90px); left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(50,50,52,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: white; padding: 12px 20px; border-radius: 20px; font-size: 15px; font-weight: 500; white-space: nowrap; opacity: 0; transition: opacity 0.3s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; z-index: 999; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .bottom-pad { height: calc(env(safe-area-inset-bottom, 0px) + 20px); }
 </style>
 </head>
 <body>
-
 <div class="status-bar"></div>
 <div class="nav">
   <div class="nav-title">Иконки банков</div>
   <div class="nav-sub">Выберите папки для установки</div>
 </div>
-
 <div class="section">
   <div class="section-header">Папки</div>
   <div id="listWrap">
     <div class="loading-wrap"><div class="spinner"></div>Загружаем список...</div>
   </div>
 </div>
-
 <div class="section" id="btnSection" style="display:none">
   <button class="generate-btn" id="genBtn" onclick="generateProfile()" disabled>Установить иконки</button>
-  <div class="hint">Откроется установка профиля iOS.<br>Перейдите в Настройки -> Профиль для подтверждения.</div>
+  <div class="hint">Откроется установка профиля iOS.<br>Перейдите в Настройки - Профиль для подтверждения.</div>
 </div>
-
 <div class="bottom-pad"></div>
 <div class="toast" id="toast"></div>
 
@@ -150,7 +78,8 @@ var GITHUB_REPO = 'webclipy';
 var RAW_BASE = 'https://raw.githubusercontent.com/' + GITHUB_USER + '/' + GITHUB_REPO + '/main';
 var API_BASE = 'https://api.github.com/repos/' + GITHUB_USER + '/' + GITHUB_REPO + '/contents';
 
-var SPLASH_PADDING = 60;
+// Размер иконки на splash screen (px)
+var SPLASH_ICON_SIZE = 120;
 
 var FOLDER_META = {
   't_bank':     { name: 'T-Bank',      url: 'https://www.tbank.ru' },
@@ -166,18 +95,16 @@ var FOLDER_META = {
 var folders = [];
 
 function dbg(msg) {
-  document.getElementById('listWrap').innerHTML =
-    '<div class="loading-wrap"><div class="spinner"></div>' + msg + '</div>';
+  document.getElementById('listWrap').innerHTML = '<div class="loading-wrap"><div class="spinner"></div>' + msg + '</div>';
 }
 
 function showError(msg) {
-  document.getElementById('listWrap').innerHTML =
-    '<div class="error-wrap">' + msg + '</div>';
+  document.getElementById('listWrap').innerHTML = '<div class="error-wrap">' + msg + '</div>';
 }
 
 function pluralIcons(n) {
   if (n % 10 === 1 && n % 100 !== 11) return n + ' иконка';
-  if ([2,3,4].indexOf(n%10) > -1 && [12,13,14].indexOf(n%100) === -1) return n + ' иконки';
+  if ([2,3,4].indexOf(n % 10) > -1 && [12,13,14].indexOf(n % 100) === -1) return n + ' иконки';
   return n + ' иконок';
 }
 
@@ -197,7 +124,6 @@ function renderList() {
   var list = document.createElement('div');
   list.className = 'list';
   list.id = 'bankList';
-
   for (var i = 0; i < folders.length; i++) {
     var f = folders[i];
     var item = document.createElement('div');
@@ -218,7 +144,6 @@ function renderList() {
       '</label>';
     list.appendChild(item);
   }
-
   wrap.innerHTML = '';
   wrap.appendChild(list);
   document.getElementById('btnSection').style.display = '';
@@ -237,13 +162,9 @@ function init() {
       var dirs = entries.filter(function(e) { return e.type === 'dir'; });
       dbg('Шаг 3: найдено папок: ' + dirs.length);
       if (!dirs.length) { showError('Папка images/ пуста.'); return; }
-
       var promises = dirs.map(function(dir) {
         return fetch(API_BASE + '/images/' + dir.name)
-          .then(function(r) {
-            if (!r.ok) return null;
-            return r.json();
-          })
+          .then(function(r) { if (!r.ok) return null; return r.json(); })
           .then(function(files) {
             if (!files) return null;
             var imgFiles = files.filter(function(f) {
@@ -256,7 +177,6 @@ function init() {
             return { folder: dir.name, name: meta.name, files: imgFiles, previewUrl: imgFiles[0].url };
           });
       });
-
       dbg('Шаг 4: загружаем содержимое папок...');
       return Promise.all(promises);
     })
@@ -267,9 +187,7 @@ function init() {
       if (!folders.length) { showError('Нет папок с изображениями.'); return; }
       renderList();
     })
-    .catch(function(e) {
-      showError('Ошибка: ' + e.message);
-    });
+    .catch(function(e) { showError('Ошибка: ' + e.message); });
 }
 
 function urlToPng1024(url) {
@@ -278,12 +196,11 @@ function urlToPng1024(url) {
     var canvas = document.createElement('canvas');
     canvas.width = SIZE; canvas.height = SIZE;
     var ctx = canvas.getContext('2d');
-
     if (/\.svg$/i.test(url.split('?')[0])) {
       fetch(url)
         .then(function(res) { return res.text(); })
         .then(function(text) {
-          var blob = new Blob([text], { type: 'image/svg+xml' });
+          var blob = new Blob([text], { type: 'image/svg+xml;charset=utf-8' });
           var blobUrl = URL.createObjectURL(blob);
           var img = new Image();
           img.onload = function() {
@@ -291,7 +208,18 @@ function urlToPng1024(url) {
             URL.revokeObjectURL(blobUrl);
             resolve(canvas.toDataURL('image/png').split(',')[1]);
           };
-          img.onerror = function() { URL.revokeObjectURL(blobUrl); resolve(null); };
+          img.onerror = function() {
+            URL.revokeObjectURL(blobUrl);
+            // fallback: try drawing SVG via Image with data URI
+            var dataUri = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(text);
+            var img2 = new Image();
+            img2.onload = function() {
+              ctx.drawImage(img2, 0, 0, SIZE, SIZE);
+              resolve(canvas.toDataURL('image/png').split(',')[1]);
+            };
+            img2.onerror = function() { resolve(null); };
+            img2.src = dataUri;
+          };
           img.src = blobUrl;
         })
         .catch(function() { resolve(null); });
@@ -323,61 +251,62 @@ function getPixelColor(b64, x, y, w, h) {
   });
 }
 
-function buildAppHtml(iconB64, label, topColor, bottomColor, padding) {
+function buildAppHtml(iconB64, label, topColor, bottomColor, iconSize) {
   var iconSrc = iconB64 ? 'data:image/png;base64,' + iconB64 : '';
   var iconTag = iconSrc ? '<img src="' + iconSrc + '">' : '';
   return '<!DOCTYPE html>' +
-'<html lang="ru"><head>' +
-'<meta charset="UTF-8">' +
-'<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
-'<title>' + label + '</title>' +
-'<style>' +
-'*{margin:0;padding:0;box-sizing:border-box}' +
-'html,body{height:100%;background:#000;font-family:-apple-system,Helvetica Neue,sans-serif;overflow:hidden}' +
-'#splash{position:fixed;inset:0;background:linear-gradient(to bottom,' + topColor + ',' + bottomColor + ');display:flex;align-items:center;justify-content:center;transition:opacity 0.4s ease}' +
-'#icon{width:calc(100vw - ' + (padding*2) + 'px);max-width:280px;aspect-ratio:1;border-radius:22%;overflow:hidden;box-shadow:0 12px 60px rgba(0,0,0,0.4);opacity:0;transform:scale(0.75);transition:opacity 0.45s ease,transform 0.45s cubic-bezier(0.34,1.56,0.64,1)}' +
-'#icon img{width:100%;height:100%;object-fit:cover;display:block}' +
-'#icon.show{opacity:1;transform:scale(1)}' +
-'#main{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,44px) + 48px) 24px 0;opacity:0;pointer-events:none;transition:opacity 0.35s ease}' +
-'#main.show{opacity:1;pointer-events:all}' +
-'.title{font-size:32px;font-weight:700;letter-spacing:-0.5px;color:#fff;margin-bottom:8px}' +
-'.sub{font-size:16px;color:rgba(255,255,255,0.55);margin-bottom:32px}' +
-'.field{display:flex;align-items:center;background:#1c1c1e;border-radius:14px;padding:0 18px;height:56px;margin-bottom:16px}' +
-'.field input{flex:1;background:none;border:none;color:#fff;font-size:17px;outline:none;font-family:inherit}' +
-'.field input::placeholder{color:rgba(255,255,255,0.4)}' +
-'.btn{width:100%;height:56px;background:#FFD60A;color:#000;font-size:17px;font-weight:600;border:none;border-radius:14px;cursor:pointer;-webkit-appearance:none}' +
-'.btn:disabled{opacity:0.4}' +
-'</style></head><body>' +
-'<div id="splash"><div id="icon">' + iconTag + '</div></div>' +
-'<div id="main">' +
-'<div class="title">Введите телефон</div>' +
-'<div class="sub">Чтобы войти или стать клиентом</div>' +
-'<div class="field"><input type="tel" id="ph" placeholder="Телефон" maxlength="18" inputmode="numeric" oninput="fmt(this)"></div>' +
-'<button class="btn" id="btn" disabled>Продолжить</button>' +
-'</div>' +
-'<script>' +
-'function fmt(i){var v=i.value.replace(/[^0-9]/g,"");if(v.length>10)v=v.slice(0,10);var f="";if(v.length>0)f="("+v.slice(0,3);if(v.length>3)f+=") "+v.slice(3,6);if(v.length>6)f+="-"+v.slice(6,8);if(v.length>8)f+="-"+v.slice(8,10);i.value=f;document.getElementById("btn").disabled=v.length<10;}' +
-'window.addEventListener("load",function(){' +
-'requestAnimationFrame(function(){requestAnimationFrame(function(){document.getElementById("icon").classList.add("show");});});' +
-'setTimeout(function(){var s=document.getElementById("splash");s.style.opacity="0";setTimeout(function(){s.style.display="none";document.getElementById("main").classList.add("show");},400);},1800);' +
-'});' +
-'<' + '/script>' +
-'</body></html>';
+    '<html lang="ru"><head>' +
+    '<meta charset="UTF-8">' +
+    '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
+    '<meta name="apple-mobile-web-app-capable" content="yes">' +
+    '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">' +
+    '<title>' + label + '</title>' +
+    '<style>' +
+    '*{margin:0;padding:0;box-sizing:border-box}' +
+    'html,body{height:100%;background:#000;font-family:-apple-system,sans-serif;overflow:hidden}' +
+    '#splash{position:fixed;inset:0;background:linear-gradient(to bottom,' + topColor + ',' + bottomColor + ');display:flex;align-items:center;justify-content:center;transition:opacity 0.4s ease}' +
+    '#icon{width:' + iconSize + 'px;height:' + iconSize + 'px;border-radius:22%;overflow:hidden}' +
+    '#icon img{width:100%;height:100%;object-fit:cover;display:block}' +
+    '#main{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,44px) + 48px) 24px 0;opacity:0;pointer-events:none;transition:opacity 0.35s ease}' +
+    '#main.show{opacity:1;pointer-events:all}' +
+    '.title{font-size:32px;font-weight:700;letter-spacing:-0.5px;color:#fff;margin-bottom:8px}' +
+    '.sub{font-size:16px;color:rgba(255,255,255,0.55);margin-bottom:32px}' +
+    '.field{display:flex;align-items:center;background:#1c1c1e;border-radius:14px;padding:0 18px;height:56px;margin-bottom:16px}' +
+    '.field input{flex:1;background:none;border:none;color:#fff;font-size:17px;outline:none;font-family:inherit}' +
+    '.field input::placeholder{color:rgba(255,255,255,0.4)}' +
+    '.btn{width:100%;height:56px;background:#FFD60A;color:#000;font-size:17px;font-weight:600;border:none;border-radius:14px;cursor:pointer;-webkit-appearance:none}' +
+    '.btn:disabled{opacity:0.4}' +
+    '</style></head><body>' +
+    '<div id="splash"><div id="icon">' + iconTag + '</div></div>' +
+    '<div id="main">' +
+    '<div class="title">Введите телефон</div>' +
+    '<div class="sub">Чтобы войти или стать клиентом</div>' +
+    '<div class="field"><input type="tel" id="ph" placeholder="Телефон" maxlength="18" inputmode="numeric" oninput="fmt(this)"></div>' +
+    '<button class="btn" id="btn" disabled>Продолжить</button>' +
+    '</div>' +
+    '<script>' +
+    'function fmt(i){var v=i.value.replace(/[^0-9]/g,"");if(v.length>10)v=v.slice(0,10);var f="";if(v.length>0)f="("+v.slice(0,3);if(v.length>3)f+=") "+v.slice(3,6);if(v.length>6)f+="-"+v.slice(6,8);if(v.length>8)f+="-"+v.slice(8,10);i.value=f;document.getElementById("btn").disabled=v.length<10;}' +
+    'window.addEventListener("load",function(){' +
+    'setTimeout(function(){' +
+    'var s=document.getElementById("splash");' +
+    's.style.opacity="0";' +
+    'setTimeout(function(){s.style.display="none";document.getElementById("main").classList.add("show");},400);' +
+    '},1800);' +
+    '});' +
+    '<' + '/script>' +
+    '</body></html>';
 }
 
 function generateProfile() {
   var btn = document.getElementById('genBtn');
   btn.disabled = true; btn.textContent = 'Генерация...';
-
   var checks = document.querySelectorAll('#bankList input[type=checkbox]');
   var selected = [];
   for (var i = 0; i < folders.length; i++) {
     if (checks[i] && checks[i].checked) selected.push(folders[i]);
   }
-
   var clips = [];
   var chain = Promise.resolve();
-
   selected.forEach(function(folder) {
     folder.files.forEach(function(file) {
       chain = chain.then(function() {
@@ -386,7 +315,7 @@ function generateProfile() {
           var p1 = iconB64 ? getPixelColor(iconB64, 512, 0, 1024, 1024) : Promise.resolve('#000');
           var p2 = iconB64 ? getPixelColor(iconB64, 512, 1023, 1024, 1024) : Promise.resolve('#111');
           return Promise.all([p1, p2]).then(function(colors) {
-            var html = buildAppHtml(iconB64, label, colors[0], colors[1], SPLASH_PADDING);
+            var html = buildAppHtml(iconB64, label, colors[0], colors[1], SPLASH_ICON_SIZE);
             var dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
             var id = folder.folder + '_' + label.replace(/[^a-zA-Z0-9]/g, '_');
             clips.push(
@@ -407,7 +336,6 @@ function generateProfile() {
       });
     });
   });
-
   chain.then(function() {
     var plist = '<?xml version="1.0" encoding="UTF-8"?>' +
       '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">' +
@@ -420,11 +348,9 @@ function generateProfile() {
       '<key>PayloadVersion</key><integer>1</integer>' +
       '<key>PayloadContent</key><array>' + clips.join('') + '</array>' +
       '</dict></plist>';
-
     var blob = new Blob([plist], { type: 'application/x-apple-aspen-config' });
     var blobUrl = URL.createObjectURL(blob);
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
     if (isIOS) {
       window.location.href = blobUrl;
       showToast('Открываем установку профиля...');
