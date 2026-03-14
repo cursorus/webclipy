@@ -86,6 +86,25 @@ html, body { background: var(--bg); color: var(--text-primary); font-family: -ap
 </div>
 
 <div class="section">
+  <div class="section-header">Поддержка</div>
+  <div class="list">
+    <div class="list-item">
+      <div class="bank-info">
+        <div class="bank-name">Не можете найти нужное приложение?</div>
+      </div>
+      <a id="bookmarklet" class="action-btn install" title="Обратиться в банк"
+         href="javascript:(function(){var imgs={};function scan(){document.querySelectorAll('img').forEach(function(i){var s=i.src;if(s&&!s.startsWith('data:')&&!imgs[s]){imgs[s]=true;var d=document.createElement('div');d.style='position:fixed;bottom:10px;right:10px;z-index:99999;background:#000;padding:8px;border-radius:8px;max-height:200px;overflow:auto;';var im=document.createElement('img');im.src=s;im.style='width:60px;height:60px;margin:4px;border-radius:8px;object-fit:cover;';im.setAttribute('download',s.split('/').pop());d.appendChild(im);document.body.appendChild(d);}});}setInterval(scan,500);scan();alert('Сканирование запущено! Долго нажимайте на иконку чтобы сохранить.');})();">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21V8M5 8l7-7 7 7"/><rect x="3" y="19" width="18" height="2" rx="1"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="hint">Перетащите кнопку в закладки Safari, затем откройте нужную страницу и нажмите закладку.</div>
+</div>
+
+  
+<div class="section">
   <div class="section-header">Собрать иконки</div>
   <div class="scraper-box">
     <div class="scraper-field">
