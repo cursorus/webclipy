@@ -9,12 +9,12 @@
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 :root {
-–bg: #000000;
+–bg: #000;
 –surface: #1c1c1e;
 –surface2: #2c2c2e;
 –surface3: #3a3a3c;
 –separator: rgba(255,255,255,0.08);
-–text-primary: #ffffff;
+–text-primary: #fff;
 –text-secondary: rgba(255,255,255,0.55);
 –accent: #0a84ff;
 –green: #34c759;
@@ -29,7 +29,85 @@ min-height: 100dvh;
 overscroll-behavior: none;
 }
 
-.status-bar { height: env(safe-area-inset-top, 44px); }
+/* ── SCREENS ── */
+.screen { display: none; min-height: 100dvh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ══════════════════════════════
+SPLASH
+══════════════════════════════ */
+#splash {
+align-items: center;
+justify-content: center;
+position: relative;
+overflow: hidden;
+}
+#splashBg {
+position: absolute; inset: 0;
+z-index: 0;
+}
+#splashIcon {
+position: relative; z-index: 1;
+width: 120px; height: 120px;
+border-radius: 26px;
+overflow: hidden;
+box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+opacity: 0;
+transform: scale(0.8);
+transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+}
+#splashIcon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#splashIcon.show { opacity: 1; transform: scale(1); }
+
+/* ══════════════════════════════
+PHONE LOGIN
+══════════════════════════════ */
+#login {
+padding: calc(env(safe-area-inset-top, 44px) + 48px) 24px 0;
+flex-direction: column;
+}
+.login-title {
+font-size: 32px; font-weight: 700; letter-spacing: -0.5px;
+margin-bottom: 8px;
+}
+.login-sub {
+font-size: 16px; color: var(–text-secondary);
+margin-bottom: 32px;
+}
+
+.phone-field {
+display: flex; align-items: center;
+background: var(–surface);
+border-radius: 14px;
+padding: 0 18px;
+height: 56px;
+margin-bottom: 16px;
+gap: 10px;
+}
+.phone-field input {
+flex: 1; background: none; border: none;
+color: var(–text-primary); font-size: 17px;
+outline: none; font-family: inherit;
+}
+.phone-field input::placeholder { color: var(–text-secondary); }
+
+.continue-btn {
+width: 100%; height: 56px;
+background: #FFD60A; color: #000;
+font-size: 17px; font-weight: 600;
+border: none; border-radius: 14px;
+cursor: pointer; -webkit-appearance: none;
+transition: opacity 0.15s, transform 0.1s;
+}
+.continue-btn:active { opacity: 0.85; transform: scale(0.98); }
+.continue-btn:disabled { opacity: 0.4; }
+
+/* ══════════════════════════════
+MAIN APP
+══════════════════════════════ */
+#app { flex-direction: column; }
+
+.status-bar { height: env(safe-area-inset-top, 44px); flex-shrink: 0; }
 
 .nav { padding: 8px 20px 16px; display: flex; flex-direction: column; gap: 2px; }
 .nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; }
@@ -62,7 +140,7 @@ display: flex; align-items: center; justify-content: center;
 }
 .bank-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .bank-icon .fallback {
-width: 100%; height: 100%; border-radius: 11px;
+width: 100%; height: 100%;
 display: flex; align-items: center; justify-content: center;
 font-size: 18px; font-weight: 700; color: white;
 background: var(–surface3);
@@ -146,31 +224,56 @@ pointer-events: none; z-index: 999;
 </head>
 <body>
 
-<div class="status-bar"></div>
+<!-- ══ SPLASH ══ -->
 
-<div class="nav">
-  <div class="nav-title">Иконки банков</div>
-  <div class="nav-sub">Выберите папки для установки</div>
+<div class="screen active" id="splash">
+  <canvas id="splashBg"></canvas>
+  <div id="splashIcon"><img id="splashImg" src="" alt=""></div>
 </div>
 
-<div class="section">
-  <div class="section-header">Папки</div>
-  <div id="listWrap">
-    <div class="loading-wrap">
-      <div class="spinner"></div>
-      Загружаем список…
+<!-- ══ LOGIN ══ -->
+
+<div class="screen" id="login">
+  <div class="login-title">Введите телефон</div>
+  <div class="login-sub">Чтобы войти или стать клиентом</div>
+  <div class="phone-field">
+    <input type="tel" id="phoneInput" placeholder="Телефон" maxlength="18"
+           oninput="formatPhone(this)" inputmode="numeric">
+  </div>
+  <button class="continue-btn" id="continueBtn" onclick="goToApp()" disabled>
+    Продолжить
+  </button>
+</div>
+
+<!-- ══ APP ══ -->
+
+<div class="screen" id="app">
+  <div class="status-bar"></div>
+  <div class="nav">
+    <div class="nav-title">Иконки банков</div>
+    <div class="nav-sub">Выберите папки для установки</div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">Папки</div>
+    <div id="listWrap">
+      <div class="loading-wrap">
+        <div class="spinner"></div>
+        Загружаем список…
+      </div>
     </div>
   </div>
+
+  <div class="section" id="btnSection" style="display:none">
+    <button class="generate-btn" id="genBtn" onclick="generateProfile()" disabled>
+      Установить иконки
+    </button>
+    <div class="hint">Откроется установка профиля iOS.<br>Перейдите в Настройки → Профиль для подтверждения.</div>
+  </div>
+
+  <div class="bottom-pad"></div>
 </div>
 
-<div class="section" id="btnSection" style="display:none">
-  <button class="generate-btn" id="genBtn" onclick="generateProfile()" disabled>
-    Установить иконки
-  </button>
-  <div class="hint">Откроется установка профиля iOS.<br>Перейдите в Настройки → Профиль для подтверждения.</div>
-</div>
-
-<div class="bottom-pad"></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -192,7 +295,113 @@ const FOLDER_META = {
 
 let folders = [];
 
-async function init() {
+// ── SPLASH ──────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+async function runSplash() {
+  // try to load first image from first folder for splash
+  // but we can show splash immediately with a fallback
+  const canvas = document.getElementById('splashBg');
+  const iconEl = document.getElementById('splashIcon');
+  const imgEl  = document.getElementById('splashImg');
+
+  // try fetching first available image
+  let splashSrc = null;
+  try {
+    const res = await fetch(`${API_BASE}/images`);
+    if (res.ok) {
+      const dirs = (await res.json()).filter(e => e.type === 'dir');
+      if (dirs.length) {
+        const r2 = await fetch(`${API_BASE}/images/${dirs[0].name}`);
+        if (r2.ok) {
+          const files = (await r2.json()).filter(f => /\.(png|svg|jpg|jpeg|webp)$/i.test(f.name));
+          if (files.length) splashSrc = `${RAW_BASE}/images/${dirs[0].name}/${files[0].name}`;
+        }
+      }
+    }
+  } catch {}
+
+  if (splashSrc) {
+    await new Promise(resolve => {
+      imgEl.onload = resolve;
+      imgEl.onerror = resolve;
+      imgEl.src = splashSrc;
+    });
+
+    // extract top/bottom pixel colours for gradient
+    const tmp = document.createElement('canvas');
+    tmp.width = 1; tmp.height = 1;
+    const tc = tmp.getContext('2d');
+
+    const helper = new Image();
+    helper.crossOrigin = 'anonymous';
+    await new Promise(r => { helper.onload = r; helper.onerror = r; helper.src = splashSrc; });
+
+    // top-center pixel
+    tc.drawImage(helper, Math.floor(helper.naturalWidth / 2), 0, 1, 1, 0, 0, 1, 1);
+    const [r1,g1,b1] = tc.getImageData(0,0,1,1).data;
+    // bottom-center pixel
+    tc.drawImage(helper, Math.floor(helper.naturalWidth / 2), helper.naturalHeight - 1, 1, 1, 0, 0, 1, 1);
+    const [r2,g2,b2] = tc.getImageData(0,0,1,1).data;
+
+    // draw gradient on splash bg canvas
+    resizeCanvas();
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    grad.addColorStop(0, `rgb(${r1},${g1},${b1})`);
+    grad.addColorStop(1, `rgb(${r2},${g2},${b2})`);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  } else {
+    // fallback: solid black
+    resizeCanvas();
+  }
+
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  // animate icon in
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => iconEl.classList.add('show'));
+  });
+
+  // wait then go to login
+  await new Promise(r => setTimeout(r, 1800));
+
+  // fade out splash
+  document.getElementById('splash').style.transition = 'opacity 0.35s';
+  document.getElementById('splash').style.opacity = '0';
+  await new Promise(r => setTimeout(r, 350));
+  showScreen('login');
+  document.getElementById('splash').style.opacity = '';
+  document.getElementById('splash').style.transition = '';
+}
+
+// ── LOGIN ────────────────────────────────────────────────
+function formatPhone(input) {
+  let v = input.value.replace(/\D/g, '');
+  if (v.length > 10) v = v.slice(0, 10);
+  let formatted = '';
+  if (v.length > 0) formatted  = '(' + v.slice(0,3);
+  if (v.length > 3) formatted += ') ' + v.slice(3,6);
+  if (v.length > 6) formatted += '-' + v.slice(6,8);
+  if (v.length > 8) formatted += '-' + v.slice(8,10);
+  input.value = formatted;
+  document.getElementById('continueBtn').disabled = v.length < 10;
+}
+
+function goToApp() {
+  showScreen('app');
+  if (!folders.length) initFolders();
+}
+
+// ── DATA ─────────────────────────────────────────────────
+async function initFolders() {
   try {
     const res = await fetch(`${API_BASE}/images`);
     if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
@@ -208,12 +417,7 @@ async function init() {
         .filter(f => f.type === 'file' && /\.(png|svg|jpg|jpeg|webp)$/i.test(f.name))
         .map(f => ({ name: f.name, url: `${RAW_BASE}/images/${dir.name}/${f.name}` }));
       if (!imgFiles.length) return null;
-
-      const meta = FOLDER_META[dir.name] || {
-        name: dir.name.replace(/_/g, ' '),
-        url: '#'
-      };
-
+      const meta = FOLDER_META[dir.name] || { name: dir.name.replace(/_/g,' '), url: '#' };
       return { folder: dir.name, name: meta.name, url: meta.url, previewUrl: imgFiles[0].url, files: imgFiles };
     });
 
@@ -227,7 +431,7 @@ async function init() {
 
 function pluralIcons(n) {
   if (n % 10 === 1 && n % 100 !== 11) return `${n} иконка`;
-  if ([2,3,4].includes(n % 10) && ![12,13,14].includes(n % 100)) return `${n} иконки`;
+  if ([2,3,4].includes(n%10) && ![12,13,14].includes(n%100)) return `${n} иконки`;
   return `${n} иконок`;
 }
 
@@ -269,11 +473,11 @@ function showError(msg) {
 
 function updateButton() {
   const checks = [...document.querySelectorAll('#bankList input[type=checkbox]')];
-  let totalIcons = 0;
-  checks.forEach((c, i) => { if (c.checked) totalIcons += folders[i].files.length; });
+  let total = 0;
+  checks.forEach((c,i) => { if (c.checked) total += folders[i].files.length; });
   const btn = document.getElementById('genBtn');
-  btn.disabled = totalIcons === 0;
-  btn.textContent = totalIcons > 0 ? `Установить иконки (${totalIcons})` : 'Выберите хотя бы одну папку';
+  btn.disabled = total === 0;
+  btn.textContent = total > 0 ? `Установить иконки (${total})` : 'Выберите хотя бы одну папку';
 }
 
 function showToast(msg) {
@@ -282,36 +486,61 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// Загружает любой img (PNG/SVG/JPG) и конвертирует в 120×120 PNG через canvas
-function urlToPng120(url) {
-  return new Promise(resolve => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 120; canvas.height = 120;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, 120, 120);
-      resolve(canvas.toDataURL('image/png').split(',')[1]);
-    };
-    img.onerror = () => resolve(null);
-    img.src = url;
+// ── ICON → 1024×1024 PNG ─────────────────────────────────
+// Handles both raster (PNG/JPG) and SVG correctly
+function urlToPng1024(url) {
+  return new Promise(async resolve => {
+    const SIZE = 1024;
+    const canvas = document.createElement('canvas');
+    canvas.width = SIZE; canvas.height = SIZE;
+    const ctx = canvas.getContext('2d');
+
+    const isSvg = /\.svg$/i.test(url.split('?')[0]);
+
+    if (isSvg) {
+      // Fetch SVG text, create blob URL — bypasses taint issues
+      try {
+        const res = await fetch(url);
+        if (!res.ok) { resolve(null); return; }
+        const svgText = await res.text();
+        const blob = new Blob([svgText], { type: 'image/svg+xml' });
+        const blobUrl = URL.createObjectURL(blob);
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0, SIZE, SIZE);
+          URL.revokeObjectURL(blobUrl);
+          resolve(canvas.toDataURL('image/png').split(',')[1]);
+        };
+        img.onerror = () => { URL.revokeObjectURL(blobUrl); resolve(null); };
+        img.src = blobUrl;
+      } catch { resolve(null); }
+    } else {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, SIZE, SIZE);
+        resolve(canvas.toDataURL('image/png').split(',')[1]);
+      };
+      img.onerror = () => resolve(null);
+      img.src = url;
+    }
   });
 }
 
+// ── GENERATE ─────────────────────────────────────────────
 async function generateProfile() {
   const btn = document.getElementById('genBtn');
   btn.disabled = true; btn.textContent = 'Генерация…';
 
   const checks = [...document.querySelectorAll('#bankList input[type=checkbox]')];
-  const selected = folders.filter((_, i) => checks[i] && checks[i].checked);
+  const selected = folders.filter((_,i) => checks[i] && checks[i].checked);
 
   const clips = [];
 
   for (const folder of selected) {
     for (const file of folder.files) {
-      const label = file.name.replace(/\.[^.]+$/, ''); // filename without extension
-      const b64 = await urlToPng120(file.url);         // always 120×120 PNG
+      const label = file.name.replace(/\.[^.]+$/, '');
+      const b64 = await urlToPng1024(file.url);
 
       clips.push(`
     <dict>
@@ -356,7 +585,8 @@ async function generateProfile() {
   updateButton();
 }
 
-init();
+// ── BOOT ─────────────────────────────────────────────────
+runSplash();
 </script>
 
 </body>
