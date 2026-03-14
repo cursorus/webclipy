@@ -22,15 +22,12 @@
 }
 
 html, body {
-background: var(–bg);
-color: var(–text-primary);
+background: var(–bg); color: var(–text-primary);
 font-family: -apple-system, ‘Helvetica Neue’, sans-serif;
-min-height: 100dvh;
-overscroll-behavior: none;
+min-height: 100dvh; overscroll-behavior: none;
 }
 
 .status-bar { height: env(safe-area-inset-top, 44px); }
-
 .nav { padding: 8px 20px 16px; display: flex; flex-direction: column; gap: 2px; }
 .nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; }
 .nav-sub   { font-size: 13px; color: var(–text-secondary); }
@@ -43,7 +40,6 @@ padding: 0 4px; margin-bottom: 8px;
 }
 
 .list { background: var(–surface); border-radius: var(–radius); overflow: hidden; }
-
 .list-item {
 display: flex; align-items: center;
 padding: 12px 16px; gap: 14px;
@@ -56,16 +52,14 @@ height: 0.5px; background: var(–separator);
 
 .bank-icon {
 width: 44px; height: 44px; border-radius: 11px;
-flex-shrink: 0; overflow: hidden;
-background: var(–surface2);
+flex-shrink: 0; overflow: hidden; background: var(–surface2);
 display: flex; align-items: center; justify-content: center;
 }
 .bank-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .bank-icon .fallback {
 width: 100%; height: 100%;
 display: flex; align-items: center; justify-content: center;
-font-size: 18px; font-weight: 700; color: white;
-background: var(–surface3);
+font-size: 18px; font-weight: 700; color: white; background: var(–surface3);
 }
 
 .bank-info { flex: 1; min-width: 0; }
@@ -155,10 +149,10 @@ pointer-events: none; z-index: 999;
 <script>
 const GITHUB_USER = 'cursorus';
 const GITHUB_REPO = 'webclipy';
-const RAW_BASE    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main`;
-const API_BASE    = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents`;
+const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main`;
+const API_BASE = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents`;
 
-// Отступы слева/справа для splash screen (в px)
+// Отступы слева/справа от иконки на splash screen (px)
 const SPLASH_PADDING = 60;
 
 const FOLDER_META = {
@@ -174,34 +168,48 @@ const FOLDER_META = {
 
 let folders = [];
 
+// fetch с таймаутом
+function fetchWithTimeout(url, ms = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { signal: controller.signal })
+    .finally(() => clearTimeout(timer));
+}
+
 async function init() {
   try {
-    const res = await fetch(`${API_BASE}/images`);
+    const res = await fetchWithTimeout(`${API_BASE}/images`);
     if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
     const entries = await res.json();
     const dirs = entries.filter(e => e.type === 'dir');
     if (!dirs.length) { showError('Папка images/ пуста.'); return; }
 
-    const fetches = dirs.map(async dir => {
-      const r = await fetch(`${API_BASE}/images/${dir.name}`);
+    // загружаем содержимое каждой папки параллельно
+    const results = await Promise.allSettled(dirs.map(async dir => {
+      const r = await fetchWithTimeout(`${API_BASE}/images/${dir.name}`);
       if (!r.ok) return null;
       const files = await r.json();
       const imgFiles = files
         .filter(f => f.type === 'file' && /\.(png|svg|jpg|jpeg|webp)$/i.test(f.name))
         .map(f => ({ name: f.name, url: `${RAW_BASE}/images/${dir.name}/${f.name}` }));
       if (!imgFiles.length) return null;
-      const meta = FOLDER_META[dir.name] || { name: dir.name.replace(/_/g,' '), url: '#' };
+      const meta = FOLDER_META[dir.name] || { name: dir.name.replace(/_/g, ' '), url: '#' };
       return { folder: dir.name, name: meta.name, files: imgFiles, previewUrl: imgFiles[0].url };
-    });
+    }));
 
-    folders = (await Promise.all(fetches)).filter(Boolean);
+    folders = results
+      .filter(r => r.status === 'fulfilled' && r.value)
+      .map(r => r.value);
+
     if (!folders.length) { showError('Нет папок с изображениями.'); return; }
     renderList();
-  } catch(e) { showError('Не удалось загрузить список.<br>' + e.message); }
+  } catch (e) {
+    showError('Не удалось загрузить список.<br>' + e.message);
+  }
 }
 
 function pluralIcons(n) {
-  if (n%10===1 && n%100!==11) return `${n} иконка`;
+  if (n % 10 === 1 && n % 100 !== 11) return `${n} иконка`;
   if ([2,3,4].includes(n%10) && ![12,13,14].includes(n%100)) return `${n} иконки`;
   return `${n} иконок`;
 }
@@ -210,12 +218,14 @@ function renderList() {
   const wrap = document.getElementById('listWrap');
   const list = document.createElement('div');
   list.className = 'list'; list.id = 'bankList';
+
   folders.forEach(f => {
     const item = document.createElement('div');
     item.className = 'list-item';
     item.innerHTML = `
       <div class="bank-icon">
-        <img src="${f.previewUrl}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="${f.previewUrl}" alt=""
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="fallback" style="display:none">${f.name[0].toUpperCase()}</div>
       </div>
       <div class="bank-info">
@@ -229,6 +239,7 @@ function renderList() {
       </label>`;
     list.appendChild(item);
   });
+
   wrap.innerHTML = '';
   wrap.appendChild(list);
   document.getElementById('btnSection').style.display = '';
@@ -242,7 +253,7 @@ function showError(msg) {
 function updateButton() {
   const checks = [...document.querySelectorAll('#bankList input[type=checkbox]')];
   let total = 0;
-  checks.forEach((c,i) => { if (c.checked) total += folders[i].files.length; });
+  checks.forEach((c, i) => { if (c.checked) total += folders[i].files.length; });
   const btn = document.getElementById('genBtn');
   btn.disabled = total === 0;
   btn.textContent = total > 0 ? `Установить иконки (${total})` : 'Выберите хотя бы одну папку';
@@ -254,21 +265,21 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// Конвертирует любой URL (PNG/JPG/SVG) в 1024×1024 PNG base64
+// Любой URL (PNG/JPG/SVG) → 1024×1024 PNG base64
 function urlToPng1024(url) {
   return new Promise(async resolve => {
     const SIZE = 1024;
     const canvas = document.createElement('canvas');
     canvas.width = SIZE; canvas.height = SIZE;
     const ctx = canvas.getContext('2d');
-    const isSvg = /\.svg$/i.test(url.split('?')[0]);
 
     try {
-      if (isSvg) {
+      // для SVG — fetch текст и создаём blob URL
+      if (/\.svg$/i.test(url.split('?')[0])) {
         const res = await fetch(url);
         if (!res.ok) { resolve(null); return; }
-        const svgText = await res.text();
-        const blob = new Blob([svgText], { type: 'image/svg+xml' });
+        const text = await res.text();
+        const blob = new Blob([text], { type: 'image/svg+xml' });
         const blobUrl = URL.createObjectURL(blob);
         const img = new Image();
         img.onload = () => {
@@ -292,7 +303,7 @@ function urlToPng1024(url) {
   });
 }
 
-// Извлекает цвет пикселя из base64 PNG по координатам
+// Берёт цвет пикселя [x,y] из base64 PNG размером [w,h]
 function getPixelColor(b64, x, y, w, h) {
   return new Promise(resolve => {
     const img = new Image();
@@ -300,7 +311,7 @@ function getPixelColor(b64, x, y, w, h) {
       const c = document.createElement('canvas');
       c.width = w; c.height = h;
       c.getContext('2d').drawImage(img, 0, 0, w, h);
-      const [r,g,b] = c.getContext('2d').getImageData(x, y, 1, 1).data;
+      const [r, g, b] = c.getContext('2d').getImageData(x, y, 1, 1).data;
       resolve(`rgb(${r},${g},${b})`);
     };
     img.onerror = () => resolve('#000');
@@ -308,12 +319,9 @@ function getPixelColor(b64, x, y, w, h) {
   });
 }
 
-// Генерирует HTML для страницы-заглушки конкретной иконки
-// iconB64 — base64 PNG иконки, label — название
-function buildAppHtml(iconB64, label, topColor, bottomColor, splashPadding) {
-  // Экранируем спецсимволы для вставки в JS строку внутри data URI
+// Генерирует HTML страницы-заглушки (splash + форма телефона)
+function buildAppHtml(iconB64, label, topColor, bottomColor, padding) {
   const iconSrc = iconB64 ? `data:image/png;base64,${iconB64}` : '';
-
   return `<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -329,18 +337,16 @@ html,body{height:100%;background:#000;font-family:-apple-system,'Helvetica Neue'
   display:flex;align-items:center;justify-content:center;
   transition:opacity 0.4s ease;
 }
-#splashIcon{
-  width:calc(100vw - ${splashPadding*2}px);
-  max-width:280px;
-  aspect-ratio:1;
-  border-radius:22%;
-  overflow:hidden;
+#icon{
+  width:calc(100vw - ${padding * 2}px);
+  max-width:280px;aspect-ratio:1;
+  border-radius:22%;overflow:hidden;
   box-shadow:0 12px 60px rgba(0,0,0,0.4);
   opacity:0;transform:scale(0.75);
   transition:opacity 0.45s ease,transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
 }
-#splashIcon img{width:100%;height:100%;object-fit:cover;display:block}
-#splashIcon.show{opacity:1;transform:scale(1)}
+#icon img{width:100%;height:100%;object-fit:cover;display:block}
+#icon.show{opacity:1;transform:scale(1)}
 #main{
   position:fixed;inset:0;background:#000;
   display:flex;flex-direction:column;
@@ -351,25 +357,10 @@ html,body{height:100%;background:#000;font-family:-apple-system,'Helvetica Neue'
 #main.show{opacity:1;pointer-events:all}
 .title{font-size:32px;font-weight:700;letter-spacing:-0.5px;color:#fff;margin-bottom:8px}
 .sub{font-size:16px;color:rgba(255,255,255,0.55);margin-bottom:32px}
-.field{
-  display:flex;align-items:center;
-  background:#1c1c1e;border-radius:14px;
-  padding:0 18px;height:56px;margin-bottom:16px;
-}
-.field input{
-  flex:1;background:none;border:none;
-  color:#fff;font-size:17px;outline:none;
-  font-family:inherit;
-}
+.field{display:flex;align-items:center;background:#1c1c1e;border-radius:14px;padding:0 18px;height:56px;margin-bottom:16px}
+.field input{flex:1;background:none;border:none;color:#fff;font-size:17px;outline:none;font-family:inherit}
 .field input::placeholder{color:rgba(255,255,255,0.4)}
-.btn{
-  width:100%;height:56px;
-  background:#FFD60A;color:#000;
-  font-size:17px;font-weight:600;
-  border:none;border-radius:14px;cursor:pointer;
-  -webkit-appearance:none;
-  transition:opacity 0.15s,transform 0.1s;
-}
+.btn{width:100%;height:56px;background:#FFD60A;color:#000;font-size:17px;font-weight:600;border:none;border-radius:14px;cursor:pointer;-webkit-appearance:none;transition:opacity 0.15s,transform 0.1s}
 .btn:active{opacity:0.85;transform:scale(0.98)}
 .btn:disabled{opacity:0.4}
 </style>
@@ -377,13 +368,13 @@ html,body{height:100%;background:#000;font-family:-apple-system,'Helvetica Neue'
 </head>
 <body>
 <div id="splash">
-  <div id="splashIcon">${iconSrc ? `<img src="${iconSrc}" alt="">` : ''}</div>
+  <div id="icon">${iconSrc ? `<img src="${iconSrc}">` : ''}</div>
 </div>
 <div id="main">
   <div class="title">Введите телефон</div>
   <div class="sub">Чтобы войти или стать клиентом</div>
   <div class="field">
-    <input type="tel" id="phone" placeholder="Телефон" maxlength="18" inputmode="numeric" oninput="fmt(this)">
+    <input type="tel" id="ph" placeholder="Телефон" maxlength="18" inputmode="numeric" oninput="fmt(this)">
   </div>
   <button class="btn" id="btn" disabled>Продолжить</button>
 </div>
@@ -402,7 +393,7 @@ function fmt(i){
 window.addEventListener('load',function(){
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
-      document.getElementById('splashIcon').classList.add('show');
+      document.getElementById('icon').classList.add('show');
     });
   });
   setTimeout(function(){
@@ -424,27 +415,23 @@ const btn = document.getElementById(‘genBtn’);
 btn.disabled = true; btn.textContent = ‘Генерация…’;
 
 const checks = […document.querySelectorAll(’#bankList input[type=checkbox]’)];
-const selected = folders.filter((_,i) => checks[i] && checks[i].checked);
+const selected = folders.filter((_, i) => checks[i] && checks[i].checked);
 
 const clips = [];
 
 for (const folder of selected) {
 for (const file of folder.files) {
 const label = file.name.replace(/.[^.]+$/, ‘’);
+const iconB64 = await urlToPng1024(file.url);
 
 ```
-  // 1. конвертируем иконку в 1024×1024 PNG
-  const iconB64 = await urlToPng1024(file.url);
-
-  // 2. извлекаем цвета для градиента
-  let topColor = '#000', bottomColor = '#000';
+  let topColor = '#000', bottomColor = '#111';
   if (iconB64) {
-    topColor    = await getPixelColor(iconB64, 512, 0,   1024, 1024);
+    topColor    = await getPixelColor(iconB64, 512, 0,    1024, 1024);
     bottomColor = await getPixelColor(iconB64, 512, 1023, 1024, 1024);
   }
 
-  // 3. строим HTML страницы и кодируем в data URI
-  const html = buildAppHtml(iconB64, label, topColor, bottomColor, SPLASH_PADDING);
+  const html    = buildAppHtml(iconB64, label, topColor, bottomColor, SPLASH_PADDING);
   const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
 
   clips.push(`
