@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -36,49 +35,40 @@ html, body { background: var(--bg); color: var(--text-primary); font-family: -ap
 .bank-info { flex: 1; min-width: 0; }
 .bank-name { font-size: 17px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .bank-count { font-size: 13px; color: var(--text-secondary); margin-top: 1px; }
-
-/* action icons instead of toggles */
 .row-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .action-btn { width: 32px; height: 32px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: background 0.15s; padding: 0; }
-.action-btn:active { background: var(–surface3); }
+.action-btn:active { background: var(--surface3); }
 .action-btn svg { width: 22px; height: 22px; }
-.action-btn.install svg { stroke: var(–accent); }
-.action-btn.download svg { stroke: var(–green); }
-
-.loading-wrap { padding: 32px 20px; text-align: center; color: var(–text-secondary); font-size: 15px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.spinner { width: 28px; height: 28px; border: 2.5px solid var(–surface3); border-top-color: var(–accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+.action-btn.install svg { stroke: var(--accent); }
+.action-btn.download svg { stroke: var(--green); }
+.loading-wrap { padding: 32px 20px; text-align: center; color: var(--text-secondary); font-size: 15px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.spinner { width: 28px; height: 28px; border: 2.5px solid var(--surface3); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.error-wrap { background: var(–surface); border-radius: var(–radius); padding: 20px; text-align: center; color: var(–red); font-size: 15px; line-height: 1.5; }
-
-/* scraper section */
-.scraper-box { background: var(–surface); border-radius: var(–radius); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-.scraper-field { display: flex; align-items: center; background: var(–surface2); border-radius: 10px; padding: 0 14px; height: 44px; gap: 8px; }
-.scraper-field input { flex: 1; background: none; border: none; color: var(–text-primary); font-size: 15px; outline: none; font-family: inherit; }
-.scraper-field input::placeholder { color: var(–text-secondary); }
+.error-wrap { background: var(--surface); border-radius: var(--radius); padding: 20px; text-align: center; color: var(--red); font-size: 15px; line-height: 1.5; }
+.scraper-box { background: var(--surface); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.scraper-field { display: flex; align-items: center; background: var(--surface2); border-radius: 10px; padding: 0 14px; height: 44px; }
+.scraper-field input { flex: 1; background: none; border: none; color: var(--text-primary); font-size: 15px; outline: none; font-family: inherit; }
+.scraper-field input::placeholder { color: var(--text-secondary); }
 .scraper-btns { display: flex; gap: 8px; }
 .scraper-btn { flex: 1; height: 44px; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; -webkit-appearance: none; transition: opacity 0.15s; }
 .scraper-btn:active { opacity: 0.8; }
-.scraper-btn.start { background: var(–accent); color: white; }
-.scraper-btn.stop { background: var(–surface3); color: var(–text-primary); }
+.scraper-btn.start { background: var(--accent); color: white; }
+.scraper-btn.stop { background: var(--surface3); color: var(--text-primary); }
 .scraper-btn:disabled { opacity: 0.4; }
-.scraper-status { font-size: 13px; color: var(–text-secondary); text-align: center; }
-
-/* scraped grid */
+.scraper-status { font-size: 13px; color: var(--text-secondary); text-align: center; }
 .scraped-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 8px; margin-top: 4px; }
 .scraped-cell { display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; }
-.scraped-img { width: 100%; aspect-ratio: 1; border-radius: 18%; object-fit: cover; background: var(–surface2); display: block; cursor: pointer; border: 2px solid transparent; transition: border-color 0.15s; }
-.scraped-img.selected { border-color: var(–accent); }
-.scraped-del { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; background: var(–red); border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 700; line-height: 1; }
-.scraper-download-btn { display: block; width: 100%; height: 44px; background: var(–green); color: white; font-size: 15px; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; -webkit-appearance: none; margin-top: 8px; transition: opacity 0.15s; }
+.scraped-img { width: 100%; aspect-ratio: 1; border-radius: 18%; object-fit: cover; background: var(--surface2); display: block; cursor: pointer; border: 2px solid transparent; transition: border-color 0.15s; }
+.scraped-img.selected { border-color: var(--accent); }
+.scraped-del { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; background: var(--red); border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 700; line-height: 1; }
+.scraper-download-btn { display: block; width: 100%; height: 44px; background: var(--green); color: white; font-size: 15px; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; -webkit-appearance: none; margin-top: 8px; transition: opacity 0.15s; }
 .scraper-download-btn:active { opacity: 0.8; }
 .scraper-download-btn:disabled { opacity: 0.4; }
-
-.hint { text-align: center; font-size: 13px; color: var(–text-secondary); margin-top: 10px; line-height: 1.4; }
+.hint { text-align: center; font-size: 13px; color: var(--text-secondary); margin-top: 10px; line-height: 1.4; }
 .toast { position: fixed; bottom: calc(env(safe-area-inset-bottom, 0px) + 90px); left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(50,50,52,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: white; padding: 12px 20px; border-radius: 20px; font-size: 15px; font-weight: 500; white-space: nowrap; opacity: 0; transition: opacity 0.3s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; z-index: 999; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .bottom-pad { height: calc(env(safe-area-inset-bottom, 0px) + 20px); }
 </style>
-
 </head>
 <body>
 
@@ -95,13 +85,11 @@ html, body { background: var(--bg); color: var(--text-primary); font-family: -ap
   </div>
 </div>
 
-<!-- SCRAPER -->
-
 <div class="section">
   <div class="section-header">Собрать иконки</div>
   <div class="scraper-box">
     <div class="scraper-field">
-      <input type="url" id="scraperUrl" placeholder="Вставь ссылку..." value="">
+      <input type="url" id="scraperUrl" placeholder="Вставь ссылку...">
     </div>
     <div class="scraper-btns">
       <button class="scraper-btn start" id="scraperStart" onclick="startScraper()">Старт</button>
@@ -123,11 +111,8 @@ var RAW_BASE = 'https://raw.githubusercontent.com/' + GITHUB_USER + '/' + GITHUB
 var API_BASE = 'https://api.github.com/repos/' + GITHUB_USER + '/' + GITHUB_REPO + '/contents';
 var CORS_PROXY = 'https://corsproxy.io/?';
 
-// Размер иконки на splash screen (px)
 var SPLASH_ICON_SIZE = 120;
-
-// Ссылка для сборщика иконок
-var SCRAPER_URL = 'https://l.tbank.ru/wdhs_yqihf';
+var SCRAPER_URL = 'https://l.tbank.ru/pardk/032ZRWQAPekTMZZtHjIXXlAPI?_i=3&click_id=779a2425-cc1d-4664-b990-2af8fbd70d73';
 
 var FOLDER_META = {
   't_bank':     { name: 'T-Bank',      url: 'https://www.tbank.ru' },
@@ -142,17 +127,13 @@ var FOLDER_META = {
 
 var folders = [];
 
-// set default scraper url
 document.getElementById('scraperUrl').value = SCRAPER_URL;
 
 function showToast(msg) {
   var t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
+  t.textContent = msg;
+  t.classList.add('show');
   setTimeout(function() { t.classList.remove('show'); }, 2800);
-}
-
-function dbg(msg) {
-  document.getElementById('listWrap').innerHTML = '<div class="loading-wrap"><div class="spinner"></div>' + msg + '</div>';
 }
 
 function showError(msg) {
@@ -165,12 +146,24 @@ function pluralIcons(n) {
   return n + ' иконок';
 }
 
-function updateButton() {}
+function isMainFile(file) {
+  return !/_bg\.[^.]+$/i.test(file.name);
+}
+
+function findBgFile(files, mainFile) {
+  var base = mainFile.name.replace(/\.[^.]+$/, '');
+  var bgName = base + '_bg.png';
+  for (var i = 0; i < files.length; i++) {
+    if (files[i].name.toLowerCase() === bgName.toLowerCase()) return files[i];
+  }
+  return null;
+}
 
 function renderList() {
   var wrap = document.getElementById('listWrap');
   var list = document.createElement('div');
-  list.className = 'list'; list.id = 'bankList';
+  list.className = 'list';
+  list.id = 'bankList';
 
   for (var i = 0; i < folders.length; i++) {
     var f = folders[i];
@@ -184,17 +177,21 @@ function renderList() {
       '</div>' +
       '<div class="bank-info">' +
         '<div class="bank-name">' + f.name + '</div>' +
-        '<div class="bank-count">' + pluralIcons(f.files.length) + '</div>' +
+        '<div class="bank-count">' + pluralIcons(f.files.filter(isMainFile).length) + '</div>' +
       '</div>' +
       '<div class="row-actions">' +
         '<button class="action-btn download" title="Скачать пак" onclick="downloadFolder(' + i + ')">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-            '<path d="M12 3v13M5 16l7 7 7-7"/><path d="M3 21h18"/>' +
+            '<line x1="12" y1="3" x2="12" y2="15"/>' +
+            '<polyline points="7,10 12,15 17,10"/>' +
+            '<line x1="3" y1="21" x2="21" y2="21"/>' +
           '</svg>' +
         '</button>' +
         '<button class="action-btn install" title="Установить" onclick="installFolder(' + i + ')">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-            '<path d="M12 21V8M5 8l7-7 7 7"/><rect x="3" y="19" width="18" height="2" rx="1"/>' +
+            '<line x1="12" y1="21" x2="12" y2="9"/>' +
+            '<polyline points="7,14 12,9 17,14"/>' +
+            '<rect x="3" y="3" width="18" height="2" rx="1"/>' +
           '</svg>' +
         '</button>' +
       '</div>';
@@ -206,7 +203,7 @@ function renderList() {
 }
 
 function init() {
-  dbg('Загружаем список...');
+  document.getElementById('listWrap').innerHTML = '<div class="loading-wrap"><div class="spinner"></div>Загружаем список...</div>';
   fetch(API_BASE + '/images')
     .then(function(res) {
       if (!res.ok) throw new Error('GitHub API: ' + res.status);
@@ -227,7 +224,8 @@ function init() {
             });
             if (!imgFiles.length) return null;
             var meta = FOLDER_META[dir.name] || { name: dir.name.replace(/_/g, ' '), url: '#' };
-            return { folder: dir.name, name: meta.name, files: imgFiles, previewUrl: imgFiles[0].url };
+            var preview = imgFiles.filter(isMainFile)[0] || imgFiles[0];
+            return { folder: dir.name, name: meta.name, url: meta.url, files: imgFiles, previewUrl: preview.url };
           });
       });
       return Promise.all(promises);
@@ -241,8 +239,6 @@ function init() {
     .catch(function(e) { showError('Ошибка: ' + e.message); });
 }
 
-// ── ICON PROCESSING ──────────────────────────────────────
-
 function urlToPng1024(url) {
   return new Promise(function(resolve) {
     var SIZE = 1024;
@@ -255,10 +251,7 @@ function urlToPng1024(url) {
         .then(function(text) {
           var dataUri = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(text);
           var img = new Image();
-          img.onload = function() {
-            ctx.drawImage(img, 0, 0, SIZE, SIZE);
-            resolve(canvas.toDataURL('image/png').split(',')[1]);
-          };
+          img.onload = function() { ctx.drawImage(img, 0, 0, SIZE, SIZE); resolve(canvas.toDataURL('image/png').split(',')[1]); };
           img.onerror = function() { resolve(null); };
           img.src = dataUri;
         })
@@ -266,17 +259,13 @@ function urlToPng1024(url) {
     } else {
       var img = new Image();
       img.crossOrigin = 'anonymous';
-      img.onload = function() {
-        ctx.drawImage(img, 0, 0, SIZE, SIZE);
-        resolve(canvas.toDataURL('image/png').split(',')[1]);
-      };
+      img.onload = function() { ctx.drawImage(img, 0, 0, SIZE, SIZE); resolve(canvas.toDataURL('image/png').split(',')[1]); };
       img.onerror = function() { resolve(null); };
       img.src = url;
     }
   });
 }
 
-// Получить цвет нижнего центрального пикселя из base64 PNG
 function getBottomCenterColor(b64) {
   return new Promise(function(resolve) {
     var img = new Image();
@@ -318,346 +307,275 @@ function buildAppHtml(splashIconB64, label, bgColor, iconSize) {
     '.btn{width:100%;height:56px;background:#FFD60A;color:#000;font-size:17px;font-weight:600;border:none;border-radius:14px;cursor:pointer;-webkit-appearance:none}' +
     '.btn:disabled{opacity:0.4}' +
     '</style></head><body>' +
-
-```
-'<div id="splash"><div id="icon">' + iconTag + '</div></div>' +
-'<div id="main">' +
-'<div class="title">Введите телефон</div>' +
-'<div class="sub">Чтобы войти или стать клиентом</div>' +
-'<div class="field"><input type="tel" id="ph" placeholder="Телефон" maxlength="18" inputmode="numeric" oninput="fmt(this)"></div>' +
-'<button class="btn" id="btn" disabled>Продолжить</button>' +
-'</div>' +
-'<script>' +
-'function fmt(i){var v=i.value.replace(/[^0-9]/g,"");if(v.length>10)v=v.slice(0,10);var f="";if(v.length>0)f="("+v.slice(0,3);if(v.length>3)f+=") "+v.slice(3,6);if(v.length>6)f+="-"+v.slice(6,8);if(v.length>8)f+="-"+v.slice(8,10);i.value=f;document.getElementById("btn").disabled=v.length<10;}' +
-'window.addEventListener("load",function(){' +
-'setTimeout(function(){' +
-'var s=document.getElementById("splash");' +
-'s.style.opacity="0";' +
-'setTimeout(function(){s.style.display="none";document.getElementById("main").classList.add("show");},400);' +
-'},1800);});' +
-'<' + '/script>' +
-'</body></html>';
-```
-
+    '<div id="splash"><div id="icon">' + iconTag + '</div></div>' +
+    '<div id="main">' +
+    '<div class="title">Введите телефон</div>' +
+    '<div class="sub">Чтобы войти или стать клиентом</div>' +
+    '<div class="field"><input type="tel" id="ph" placeholder="Телефон" maxlength="18" inputmode="numeric" oninput="fmt(this)"></div>' +
+    '<button class="btn" id="btn" disabled>Продолжить</button>' +
+    '</div>' +
+    '<script>' +
+    'function fmt(i){var v=i.value.replace(/[^0-9]/g,"");if(v.length>10)v=v.slice(0,10);var f="";if(v.length>0)f="("+v.slice(0,3);if(v.length>3)f+=") "+v.slice(3,6);if(v.length>6)f+="-"+v.slice(6,8);if(v.length>8)f+="-"+v.slice(8,10);i.value=f;document.getElementById("btn").disabled=v.length<10;}' +
+    'window.addEventListener("load",function(){setTimeout(function(){var s=document.getElementById("splash");s.style.opacity="0";setTimeout(function(){s.style.display="none";document.getElementById("main").classList.add("show");},400);},1800);});' +
+    '<' + '/script>' +
+    '</body></html>';
 }
 
-// Для каждого файла находим его bg-пару если есть
-function findBgFile(files, mainFile) {
-var base = mainFile.name.replace(/.[^.]+$/, ‘’);
-var bgName = base + ‘_bg.png’;
-for (var i = 0; i < files.length; i++) {
-if (files[i].name.toLowerCase() === bgName.toLowerCase()) return files[i];
-}
-return null;
-}
+function processFolder(folder) {
+  return new Promise(function(resolve) {
+    var mainFiles = folder.files.filter(isMainFile);
+    var clips = [];
+    var i = 0;
 
-// Пропускаем _bg файлы в основном списке
-function isMainFile(file) {
-return !/_bg.[^.]+$/i.test(file.name);
-}
+    function next() {
+      if (i >= mainFiles.length) { resolve(clips); return; }
+      var file = mainFiles[i++];
+      var label = file.name.replace(/\.[^.]+$/, '');
+      var bgFile = findBgFile(folder.files, file);
 
-async function processFolder(folder) {
-var mainFiles = folder.files.filter(isMainFile);
-var clips = [];
-
-for (var i = 0; i < mainFiles.length; i++) {
-var file = mainFiles[i];
-var label = file.name.replace(/.[^.]+$/, ‘’);
-
-```
-// конвертируем основную иконку (для профиля и цвета фона)
-var iconB64 = await urlToPng1024(file.url);
-
-// ищем _bg файл для splash
-var bgFile = findBgFile(folder.files, file);
-var splashB64 = iconB64;
-if (bgFile) {
-  splashB64 = await urlToPng1024(bgFile.url);
-}
-
-// цвет фона — нижний пиксель основной иконки
-var bgColor = '#000';
-if (iconB64) bgColor = await getBottomCenterColor(iconB64);
-
-var html = buildAppHtml(splashB64, label, bgColor, SPLASH_ICON_SIZE);
-var dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
-var id = folder.folder + '_' + label.replace(/[^a-zA-Z0-9]/g, '_');
-
-clips.push(
-  '<dict>' +
-  '<key>PayloadType</key><string>com.apple.webClip.managed</string>' +
-  '<key>PayloadIdentifier</key><string>ru.banks.icons.' + id + '</string>' +
-  '<key>PayloadUUID</key><string>' + crypto.randomUUID() + '</string>' +
-  '<key>PayloadVersion</key><integer>1</integer>' +
-  '<key>Label</key><string>' + label + '</string>' +
-  '<key>URL</key><string>' + dataUrl + '</string>' +
-  '<key>IsRemovable</key><false/>' +
-  '<key>FullScreen</key><true/>' +
-  (iconB64 ? '<key>Icon</key><data>' + iconB64 + '</data>' : '') +
-  '</dict>'
-);
-```
-
-}
-return clips;
+      urlToPng1024(file.url).then(function(iconB64) {
+        var splashPromise = bgFile ? urlToPng1024(bgFile.url) : Promise.resolve(iconB64);
+        splashPromise.then(function(splashB64) {
+          var colorPromise = iconB64 ? getBottomCenterColor(iconB64) : Promise.resolve('#000');
+          colorPromise.then(function(bgColor) {
+            var html = buildAppHtml(splashB64, label, bgColor, SPLASH_ICON_SIZE);
+            var dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+            var id = folder.folder + '_' + label.replace(/[^a-zA-Z0-9]/g, '_');
+            clips.push(
+              '<dict>' +
+              '<key>PayloadType</key><string>com.apple.webClip.managed</string>' +
+              '<key>PayloadIdentifier</key><string>ru.banks.icons.' + id + '</string>' +
+              '<key>PayloadUUID</key><string>' + crypto.randomUUID() + '</string>' +
+              '<key>PayloadVersion</key><integer>1</integer>' +
+              '<key>Label</key><string>' + label + '</string>' +
+              '<key>URL</key><string>' + dataUrl + '</string>' +
+              '<key>IsRemovable</key><false/>' +
+              '<key>FullScreen</key><true/>' +
+              (iconB64 ? '<key>Icon</key><data>' + iconB64 + '</data>' : '') +
+              '</dict>'
+            );
+            next();
+          });
+        });
+      });
+    }
+    next();
+  });
 }
 
 function buildPlist(clips) {
-return ‘<?xml version="1.0" encoding="UTF-8"?>’ +
-‘<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">’ +
-‘<plist version="1.0"><dict>’ +
-‘<key>PayloadDisplayName</key><string>Иконки банков</string>’ +
-‘<key>PayloadDescription</key><string>Добавляет иконки на домашний экран</string>’ +
-‘<key>PayloadIdentifier</key><string>ru.banks.icons.profile</string>’ +
-‘<key>PayloadUUID</key><string>’ + crypto.randomUUID() + ‘</string>’ +
-‘<key>PayloadType</key><string>Configuration</string>’ +
-‘<key>PayloadVersion</key><integer>1</integer>’ +
-‘<key>PayloadContent</key><array>’ + clips.join(’’) + ‘</array>’ +
-‘</dict></plist>’;
+  return '<?xml version="1.0" encoding="UTF-8"?>' +
+    '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">' +
+    '<plist version="1.0"><dict>' +
+    '<key>PayloadDisplayName</key><string>Иконки банков</string>' +
+    '<key>PayloadDescription</key><string>Добавляет иконки на домашний экран</string>' +
+    '<key>PayloadIdentifier</key><string>ru.banks.icons.profile</string>' +
+    '<key>PayloadUUID</key><string>' + crypto.randomUUID() + '</string>' +
+    '<key>PayloadType</key><string>Configuration</string>' +
+    '<key>PayloadVersion</key><integer>1</integer>' +
+    '<key>PayloadContent</key><array>' + clips.join('') + '</array>' +
+    '</dict></plist>';
 }
 
-function triggerDownload(plist, filename) {
-var blob = new Blob([plist], { type: ‘application/x-apple-aspen-config’ });
-var blobUrl = URL.createObjectURL(blob);
-var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-if (isIOS) {
-window.location.href = blobUrl;
-showToast(‘Открываем установку профиля…’);
-} else {
-var a = document.createElement(‘a’);
-a.href = blobUrl; a.download = filename || ‘banks.mobileconfig’; a.click();
-showToast(‘Профиль скачан’);
-}
-setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 5000);
-}
-
-// Установить одну папку
-async function installFolder(idx) {
-var folder = folders[idx];
-var btn = document.querySelector(’[data-idx=”’ + idx + ‘”] .action-btn.install’);
-if (btn) { btn.style.opacity = ‘0.4’; btn.disabled = true; }
-showToast(‘Генерация…’);
-var clips = await processFolder(folder);
-var plist = buildPlist(clips);
-triggerDownload(plist, folder.folder + ‘.mobileconfig’);
-if (btn) { btn.style.opacity = ‘’; btn.disabled = false; }
+function triggerProfile(plist, filename) {
+  var blob = new Blob([plist], { type: 'application/x-apple-aspen-config' });
+  var blobUrl = URL.createObjectURL(blob);
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  if (isIOS) {
+    window.location.href = blobUrl;
+    showToast('Открываем установку профиля...');
+  } else {
+    var a = document.createElement('a');
+    a.href = blobUrl; a.download = filename || 'banks.mobileconfig'; a.click();
+    showToast('Профиль скачан');
+  }
+  setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 5000);
 }
 
-// Скачать пак картинок папки как zip (через JSZip CDN)
-async function downloadFolder(idx) {
-var folder = folders[idx];
-showToast(’Скачиваем ’ + folder.name + ‘…’);
-
-// качаем JSZip если нет
-if (!window.JSZip) {
-await new Promise(function(resolve, reject) {
-var s = document.createElement(‘script’);
-s.src = ‘https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js’;
-s.onload = resolve; s.onerror = reject;
-document.head.appendChild(s);
-});
+function installFolder(idx) {
+  var folder = folders[idx];
+  showToast('Генерация...');
+  processFolder(folder).then(function(clips) {
+    triggerProfile(buildPlist(clips), folder.folder + '.mobileconfig');
+  });
 }
 
-var zip = new JSZip();
-var mainFiles = folder.files.filter(isMainFile);
-
-for (var i = 0; i < mainFiles.length; i++) {
-var file = mainFiles[i];
-try {
-var res = await fetch(file.url);
-var blob = await res.blob();
-zip.file(file.name, blob);
-} catch(e) {}
+function loadJSZip() {
+  if (window.JSZip) return Promise.resolve();
+  return new Promise(function(resolve, reject) {
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+    s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
 }
 
-var content = await zip.generateAsync({ type: ‘blob’ });
-var url = URL.createObjectURL(content);
-var a = document.createElement(‘a’);
-a.href = url; a.download = folder.folder + ‘.zip’; a.click();
-setTimeout(function() { URL.revokeObjectURL(url); }, 3000);
-showToast(’Скачано: ’ + folder.name);
+function downloadFolder(idx) {
+  var folder = folders[idx];
+  showToast('Скачиваем ' + folder.name + '...');
+  loadJSZip().then(function() {
+    var zip = new JSZip();
+    var mainFiles = folder.files.filter(isMainFile);
+    var promises = mainFiles.map(function(file) {
+      return fetch(file.url)
+        .then(function(r) { return r.blob(); })
+        .then(function(blob) { zip.file(file.name, blob); })
+        .catch(function() {});
+    });
+    Promise.all(promises).then(function() {
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
+        var url = URL.createObjectURL(content);
+        var a = document.createElement('a');
+        a.href = url; a.download = folder.folder + '.zip'; a.click();
+        setTimeout(function() { URL.revokeObjectURL(url); }, 3000);
+        showToast('Скачано: ' + folder.name);
+      });
+    });
+  });
 }
-
-// ── SCRAPER ──────────────────────────────────────────────
 
 var scraperTimer = null;
 var scraperSeenUrls = {};
 var scraperImages = [];
 
 function startScraper() {
-var url = document.getElementById(‘scraperUrl’).value.trim();
-if (!url) { showToast(‘Введи ссылку’); return; }
-
-document.getElementById(‘scraperStart’).disabled = true;
-document.getElementById(‘scraperStop’).disabled = false;
-document.getElementById(‘scraperStatus’).textContent = ‘Запускаем…’;
-scraperSeenUrls = {};
-scraperImages = [];
-document.getElementById(‘scrapedGrid’).innerHTML = ‘’;
-document.getElementById(‘scraperDownload’).style.display = ‘none’;
-
-scraperFetch(url);
-scraperTimer = setInterval(function() { scraperFetch(url); }, 800);
+  var url = document.getElementById('scraperUrl').value.trim();
+  if (!url) { showToast('Введи ссылку'); return; }
+  document.getElementById('scraperStart').disabled = true;
+  document.getElementById('scraperStop').disabled = false;
+  document.getElementById('scraperStatus').textContent = 'Запускаем...';
+  scraperSeenUrls = {};
+  scraperImages = [];
+  document.getElementById('scrapedGrid').innerHTML = '';
+  document.getElementById('scraperDownload').style.display = 'none';
+  scraperFetch(url);
+  scraperTimer = setInterval(function() { scraperFetch(url); }, 800);
 }
 
 function stopScraper() {
-if (scraperTimer) { clearInterval(scraperTimer); scraperTimer = null; }
-document.getElementById(‘scraperStart’).disabled = false;
-document.getElementById(‘scraperStop’).disabled = true;
-document.getElementById(‘scraperStatus’).textContent = ’Остановлено. Найдено: ’ + scraperImages.length;
-if (scraperImages.length > 0) {
-document.getElementById(‘scraperDownload’).style.display = ‘block’;
-}
+  if (scraperTimer) { clearInterval(scraperTimer); scraperTimer = null; }
+  document.getElementById('scraperStart').disabled = false;
+  document.getElementById('scraperStop').disabled = true;
+  document.getElementById('scraperStatus').textContent = 'Остановлено. Найдено: ' + scraperImages.length;
+  if (scraperImages.length > 0) {
+    document.getElementById('scraperDownload').style.display = 'block';
+    updateScraperDownload();
+  }
 }
 
 function scraperFetch(url) {
-var proxyUrl = CORS_PROXY + encodeURIComponent(url);
-fetch(proxyUrl)
-.then(function(res) { return res.text(); })
-.then(function(html) {
-var parser = new DOMParser();
-var doc = parser.parseFromString(html, ‘text/html’);
-var imgs = doc.querySelectorAll(‘img’);
-var found = 0;
-
-```
-  imgs.forEach(function(img) {
-    var src = img.getAttribute('src') || img.getAttribute('data-src') || '';
-    if (!src) return;
-    // resolve relative URLs
-    try {
-      src = new URL(src, url).href;
-    } catch(e) { return; }
-    // skip tiny icons, svgs, base64
-    if (src.startsWith('data:')) return;
-    if (scraperSeenUrls[src]) return;
-    scraperSeenUrls[src] = true;
-
-    // try to fetch through proxy to check it's an image
-    fetch(CORS_PROXY + encodeURIComponent(src))
-      .then(function(r) {
-        var ct = r.headers.get('content-type') || '';
-        if (!ct.startsWith('image/')) return null;
-        return r.blob();
-      })
-      .then(function(blob) {
-        if (!blob) return;
-        var objUrl = URL.createObjectURL(blob);
-        addScrapedImage(objUrl, src);
-      })
-      .catch(function() {});
-  });
-
-  // also look for background-image in inline styles
-  var allEls = doc.querySelectorAll('[style]');
-  allEls.forEach(function(el) {
-    var style = el.getAttribute('style') || '';
-    var match = style.match(/url\(['"]?([^'")\s]+)['"]?\)/);
-    if (match) {
-      var src2 = match[1];
-      try { src2 = new URL(src2, url).href; } catch(e) { return; }
-      if (src2.startsWith('data:')) return;
-      if (scraperSeenUrls[src2]) return;
-      scraperSeenUrls[src2] = true;
-      fetch(CORS_PROXY + encodeURIComponent(src2))
-        .then(function(r) {
-          var ct = r.headers.get('content-type') || '';
-          if (!ct.startsWith('image/')) return null;
-          return r.blob();
-        })
-        .then(function(blob) {
-          if (!blob) return;
-          addScrapedImage(URL.createObjectURL(blob), src2);
-        })
-        .catch(function() {});
-    }
-  });
-
-  document.getElementById('scraperStatus').textContent = 'Сканируем... Найдено: ' + scraperImages.length;
-})
-.catch(function(e) {
-  document.getElementById('scraperStatus').textContent = 'Ошибка прокси: ' + e.message;
-});
-```
-
+  var proxyUrl = CORS_PROXY + encodeURIComponent(url);
+  fetch(proxyUrl)
+    .then(function(res) { return res.text(); })
+    .then(function(html) {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(html, 'text/html');
+      var imgs = doc.querySelectorAll('img');
+      imgs.forEach(function(img) {
+        var src = img.getAttribute('src') || img.getAttribute('data-src') || '';
+        if (!src || src.startsWith('data:')) return;
+        try { src = new URL(src, url).href; } catch(e) { return; }
+        if (scraperSeenUrls[src]) return;
+        scraperSeenUrls[src] = true;
+        fetchScraperImage(src);
+      });
+      var allEls = doc.querySelectorAll('[style]');
+      allEls.forEach(function(el) {
+        var style = el.getAttribute('style') || '';
+        var match = style.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+        if (!match) return;
+        var src2 = match[1];
+        if (src2.startsWith('data:')) return;
+        try { src2 = new URL(src2, url).href; } catch(e) { return; }
+        if (scraperSeenUrls[src2]) return;
+        scraperSeenUrls[src2] = true;
+        fetchScraperImage(src2);
+      });
+      document.getElementById('scraperStatus').textContent = 'Сканируем... Найдено: ' + scraperImages.length;
+    })
+    .catch(function(e) {
+      document.getElementById('scraperStatus').textContent = 'Ошибка: ' + e.message;
+    });
 }
 
-function addScrapedImage(objUrl, origUrl) {
-scraperImages.push({ objUrl: objUrl, origUrl: origUrl, selected: true });
-var idx = scraperImages.length - 1;
-var grid = document.getElementById(‘scrapedGrid’);
+function fetchScraperImage(src) {
+  fetch(CORS_PROXY + encodeURIComponent(src))
+    .then(function(r) {
+      var ct = r.headers.get('content-type') || '';
+      if (!ct.startsWith('image/')) return null;
+      return r.blob();
+    })
+    .then(function(blob) {
+      if (!blob) return;
+      addScrapedImage(URL.createObjectURL(blob));
+    })
+    .catch(function() {});
+}
 
-var cell = document.createElement(‘div’);
-cell.className = ‘scraped-cell’;
-cell.setAttribute(‘data-sidx’, idx);
-
-var img = document.createElement(‘img’);
-img.className = ‘scraped-img selected’;
-img.src = objUrl;
-img.onclick = function() {
-scraperImages[idx].selected = !scraperImages[idx].selected;
-img.classList.toggle(‘selected’, scraperImages[idx].selected);
-updateScraperDownload();
-};
-
-var del = document.createElement(‘button’);
-del.className = ‘scraped-del’;
-del.textContent = ‘x’;
-del.onclick = function() {
-scraperImages[idx].selected = false;
-scraperImages[idx].deleted = true;
-cell.style.display = ‘none’;
-updateScraperDownload();
-};
-
-cell.appendChild(img);
-cell.appendChild(del);
-grid.appendChild(cell);
-updateScraperDownload();
+function addScrapedImage(objUrl) {
+  var idx = scraperImages.length;
+  scraperImages.push({ objUrl: objUrl, selected: true, deleted: false });
+  var grid = document.getElementById('scrapedGrid');
+  var cell = document.createElement('div');
+  cell.className = 'scraped-cell';
+  var img = document.createElement('img');
+  img.className = 'scraped-img selected';
+  img.src = objUrl;
+  img.onclick = (function(i, im) { return function() {
+    scraperImages[i].selected = !scraperImages[i].selected;
+    im.classList.toggle('selected', scraperImages[i].selected);
+    updateScraperDownload();
+  }; })(idx, img);
+  var del = document.createElement('button');
+  del.className = 'scraped-del';
+  del.textContent = 'x';
+  del.onclick = (function(i, c) { return function() {
+    scraperImages[i].selected = false;
+    scraperImages[i].deleted = true;
+    c.style.display = 'none';
+    updateScraperDownload();
+  }; })(idx, cell);
+  cell.appendChild(img);
+  cell.appendChild(del);
+  grid.appendChild(cell);
+  updateScraperDownload();
+  document.getElementById('scraperDownload').style.display = 'block';
 }
 
 function updateScraperDownload() {
-var n = scraperImages.filter(function(i) { return i.selected && !i.deleted; }).length;
-var btn = document.getElementById(‘scraperDownload’);
-btn.style.display = scraperImages.length > 0 ? ‘block’ : ‘none’;
-btn.disabled = n === 0;
-btn.textContent = n > 0 ? ‘Скачать выбранные (’ + n + ‘)’ : ‘Выберите иконки’;
+  var n = scraperImages.filter(function(i) { return i.selected && !i.deleted; }).length;
+  var btn = document.getElementById('scraperDownload');
+  btn.disabled = n === 0;
+  btn.textContent = n > 0 ? 'Скачать выбранные (' + n + ')' : 'Выберите иконки';
 }
 
-async function downloadScraped() {
-var selected = scraperImages.filter(function(i) { return i.selected && !i.deleted; });
-if (!selected.length) return;
-
-if (!window.JSZip) {
-await new Promise(function(resolve, reject) {
-var s = document.createElement(‘script’);
-s.src = ‘https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js’;
-s.onload = resolve; s.onerror = reject;
-document.head.appendChild(s);
-});
-}
-
-var zip = new JSZip();
-for (var i = 0; i < selected.length; i++) {
-var item = selected[i];
-try {
-var res = await fetch(item.objUrl);
-var blob = await res.blob();
-var ext = (blob.type.split(’/’)[1] || ‘png’).replace(‘jpeg’,‘jpg’);
-zip.file(‘icon_’ + (i + 1) + ‘.’ + ext, blob);
-} catch(e) {}
-}
-
-var content = await zip.generateAsync({ type: ‘blob’ });
-var url = URL.createObjectURL(content);
-var a = document.createElement(‘a’);
-a.href = url; a.download = ‘icons.zip’; a.click();
-setTimeout(function() { URL.revokeObjectURL(url); }, 3000);
-showToast(‘Скачано ’ + selected.length + ’ иконок’);
+function downloadScraped() {
+  var selected = scraperImages.filter(function(i) { return i.selected && !i.deleted; });
+  if (!selected.length) return;
+  loadJSZip().then(function() {
+    var zip = new JSZip();
+    var promises = selected.map(function(item, i) {
+      return fetch(item.objUrl)
+        .then(function(r) { return r.blob(); })
+        .then(function(blob) {
+          var ext = (blob.type.split('/')[1] || 'png').replace('jpeg', 'jpg');
+          zip.file('icon_' + (i + 1) + '.' + ext, blob);
+        })
+        .catch(function() {});
+    });
+    Promise.all(promises).then(function() {
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
+        var url = URL.createObjectURL(content);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'icons.zip'; a.click();
+        setTimeout(function() { URL.revokeObjectURL(url); }, 3000);
+        showToast('Скачано ' + selected.length + ' иконок');
+      });
+    });
+  });
 }
 
 init();
 </script>
-
 </body>
 </html>
