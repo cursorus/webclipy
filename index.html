@@ -29,85 +29,7 @@ min-height: 100dvh;
 overscroll-behavior: none;
 }
 
-/* ── SCREENS ── */
-.screen { display: none; min-height: 100dvh; flex-direction: column; }
-.screen.active { display: flex; }
-
-/* ══════════════════════════════
-SPLASH
-══════════════════════════════ */
-#splash {
-align-items: center;
-justify-content: center;
-position: relative;
-overflow: hidden;
-}
-#splashBg {
-position: absolute; inset: 0;
-z-index: 0;
-}
-#splashIcon {
-position: relative; z-index: 1;
-width: 120px; height: 120px;
-border-radius: 26px;
-overflow: hidden;
-box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-opacity: 0;
-transform: scale(0.8);
-transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
-}
-#splashIcon img { width: 100%; height: 100%; object-fit: cover; display: block; }
-#splashIcon.show { opacity: 1; transform: scale(1); }
-
-/* ══════════════════════════════
-PHONE LOGIN
-══════════════════════════════ */
-#login {
-padding: calc(env(safe-area-inset-top, 44px) + 48px) 24px 0;
-flex-direction: column;
-}
-.login-title {
-font-size: 32px; font-weight: 700; letter-spacing: -0.5px;
-margin-bottom: 8px;
-}
-.login-sub {
-font-size: 16px; color: var(–text-secondary);
-margin-bottom: 32px;
-}
-
-.phone-field {
-display: flex; align-items: center;
-background: var(–surface);
-border-radius: 14px;
-padding: 0 18px;
-height: 56px;
-margin-bottom: 16px;
-gap: 10px;
-}
-.phone-field input {
-flex: 1; background: none; border: none;
-color: var(–text-primary); font-size: 17px;
-outline: none; font-family: inherit;
-}
-.phone-field input::placeholder { color: var(–text-secondary); }
-
-.continue-btn {
-width: 100%; height: 56px;
-background: #FFD60A; color: #000;
-font-size: 17px; font-weight: 600;
-border: none; border-radius: 14px;
-cursor: pointer; -webkit-appearance: none;
-transition: opacity 0.15s, transform 0.1s;
-}
-.continue-btn:active { opacity: 0.85; transform: scale(0.98); }
-.continue-btn:disabled { opacity: 0.4; }
-
-/* ══════════════════════════════
-MAIN APP
-══════════════════════════════ */
-#app { flex-direction: column; }
-
-.status-bar { height: env(safe-area-inset-top, 44px); flex-shrink: 0; }
+.status-bar { height: env(safe-area-inset-top, 44px); }
 
 .nav { padding: 8px 20px 16px; display: flex; flex-direction: column; gap: 2px; }
 .nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; }
@@ -147,23 +69,15 @@ background: var(–surface3);
 }
 
 .bank-info { flex: 1; min-width: 0; }
-.bank-name {
-font-size: 17px; font-weight: 400;
-white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
+.bank-name { font-size: 17px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .bank-count { font-size: 13px; color: var(–text-secondary); margin-top: 1px; }
 
 .toggle { position: relative; width: 51px; height: 31px; flex-shrink: 0; cursor: pointer; }
 .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
-.toggle-track {
-position: absolute; inset: 0;
-background: var(–surface3); border-radius: 15.5px;
-transition: background 0.25s;
-}
+.toggle-track { position: absolute; inset: 0; background: var(–surface3); border-radius: 15.5px; transition: background 0.25s; }
 .toggle input:checked + .toggle-track { background: var(–green); }
 .toggle-thumb {
-position: absolute;
-width: 27px; height: 27px; background: white; border-radius: 50%;
+position: absolute; width: 27px; height: 27px; background: white; border-radius: 50%;
 top: 2px; left: 2px; pointer-events: none;
 transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
 box-shadow: 0 2px 6px rgba(0,0,0,0.35);
@@ -177,17 +91,14 @@ display: flex; flex-direction: column; align-items: center; gap: 12px;
 }
 .spinner {
 width: 28px; height: 28px;
-border: 2.5px solid var(–surface3);
-border-top-color: var(–accent);
-border-radius: 50%;
-animation: spin 0.7s linear infinite;
+border: 2.5px solid var(–surface3); border-top-color: var(–accent);
+border-radius: 50%; animation: spin 0.7s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .error-wrap {
 background: var(–surface); border-radius: var(–radius);
-padding: 20px; text-align: center;
-color: #ff453a; font-size: 15px; line-height: 1.5;
+padding: 20px; text-align: center; color: #ff453a; font-size: 15px; line-height: 1.5;
 }
 
 .generate-btn {
@@ -195,16 +106,12 @@ display: block; width: 100%; padding: 17px;
 background: var(–accent); color: white;
 font-size: 17px; font-weight: 600; border: none;
 border-radius: var(–radius); cursor: pointer; text-align: center;
-transition: opacity 0.15s, transform 0.1s;
--webkit-appearance: none;
+transition: opacity 0.15s, transform 0.1s; -webkit-appearance: none;
 }
 .generate-btn:active { opacity: 0.8; transform: scale(0.98); }
 .generate-btn:disabled { opacity: 0.4; }
 
-.hint {
-text-align: center; font-size: 13px; color: var(–text-secondary);
-margin-top: 10px; line-height: 1.4;
-}
+.hint { text-align: center; font-size: 13px; color: var(–text-secondary); margin-top: 10px; line-height: 1.4; }
 
 .toast {
 position: fixed;
@@ -224,56 +131,25 @@ pointer-events: none; z-index: 999;
 </head>
 <body>
 
-<!-- ══ SPLASH ══ -->
-
-<div class="screen active" id="splash">
-  <canvas id="splashBg"></canvas>
-  <div id="splashIcon"><img id="splashImg" src="" alt=""></div>
+<div class="status-bar"></div>
+<div class="nav">
+  <div class="nav-title">Иконки банков</div>
+  <div class="nav-sub">Выберите папки для установки</div>
 </div>
 
-<!-- ══ LOGIN ══ -->
-
-<div class="screen" id="login">
-  <div class="login-title">Введите телефон</div>
-  <div class="login-sub">Чтобы войти или стать клиентом</div>
-  <div class="phone-field">
-    <input type="tel" id="phoneInput" placeholder="Телефон" maxlength="18"
-           oninput="formatPhone(this)" inputmode="numeric">
+<div class="section">
+  <div class="section-header">Папки</div>
+  <div id="listWrap">
+    <div class="loading-wrap"><div class="spinner"></div>Загружаем список…</div>
   </div>
-  <button class="continue-btn" id="continueBtn" onclick="goToApp()" disabled>
-    Продолжить
-  </button>
 </div>
 
-<!-- ══ APP ══ -->
-
-<div class="screen" id="app">
-  <div class="status-bar"></div>
-  <div class="nav">
-    <div class="nav-title">Иконки банков</div>
-    <div class="nav-sub">Выберите папки для установки</div>
-  </div>
-
-  <div class="section">
-    <div class="section-header">Папки</div>
-    <div id="listWrap">
-      <div class="loading-wrap">
-        <div class="spinner"></div>
-        Загружаем список…
-      </div>
-    </div>
-  </div>
-
-  <div class="section" id="btnSection" style="display:none">
-    <button class="generate-btn" id="genBtn" onclick="generateProfile()" disabled>
-      Установить иконки
-    </button>
-    <div class="hint">Откроется установка профиля iOS.<br>Перейдите в Настройки → Профиль для подтверждения.</div>
-  </div>
-
-  <div class="bottom-pad"></div>
+<div class="section" id="btnSection" style="display:none">
+  <button class="generate-btn" id="genBtn" onclick="generateProfile()" disabled>Установить иконки</button>
+  <div class="hint">Откроется установка профиля iOS.<br>Перейдите в Настройки → Профиль для подтверждения.</div>
 </div>
 
+<div class="bottom-pad"></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -281,6 +157,9 @@ const GITHUB_USER = 'cursorus';
 const GITHUB_REPO = 'webclipy';
 const RAW_BASE    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main`;
 const API_BASE    = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents`;
+
+// Отступы слева/справа для splash screen (в px)
+const SPLASH_PADDING = 60;
 
 const FOLDER_META = {
   't_bank':     { name: 'Т‑Банк',      url: 'https://www.tbank.ru' },
@@ -295,113 +174,7 @@ const FOLDER_META = {
 
 let folders = [];
 
-// ── SPLASH ──────────────────────────────────────────────
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-async function runSplash() {
-  // try to load first image from first folder for splash
-  // but we can show splash immediately with a fallback
-  const canvas = document.getElementById('splashBg');
-  const iconEl = document.getElementById('splashIcon');
-  const imgEl  = document.getElementById('splashImg');
-
-  // try fetching first available image
-  let splashSrc = null;
-  try {
-    const res = await fetch(`${API_BASE}/images`);
-    if (res.ok) {
-      const dirs = (await res.json()).filter(e => e.type === 'dir');
-      if (dirs.length) {
-        const r2 = await fetch(`${API_BASE}/images/${dirs[0].name}`);
-        if (r2.ok) {
-          const files = (await r2.json()).filter(f => /\.(png|svg|jpg|jpeg|webp)$/i.test(f.name));
-          if (files.length) splashSrc = `${RAW_BASE}/images/${dirs[0].name}/${files[0].name}`;
-        }
-      }
-    }
-  } catch {}
-
-  if (splashSrc) {
-    await new Promise(resolve => {
-      imgEl.onload = resolve;
-      imgEl.onerror = resolve;
-      imgEl.src = splashSrc;
-    });
-
-    // extract top/bottom pixel colours for gradient
-    const tmp = document.createElement('canvas');
-    tmp.width = 1; tmp.height = 1;
-    const tc = tmp.getContext('2d');
-
-    const helper = new Image();
-    helper.crossOrigin = 'anonymous';
-    await new Promise(r => { helper.onload = r; helper.onerror = r; helper.src = splashSrc; });
-
-    // top-center pixel
-    tc.drawImage(helper, Math.floor(helper.naturalWidth / 2), 0, 1, 1, 0, 0, 1, 1);
-    const [r1,g1,b1] = tc.getImageData(0,0,1,1).data;
-    // bottom-center pixel
-    tc.drawImage(helper, Math.floor(helper.naturalWidth / 2), helper.naturalHeight - 1, 1, 1, 0, 0, 1, 1);
-    const [r2,g2,b2] = tc.getImageData(0,0,1,1).data;
-
-    // draw gradient on splash bg canvas
-    resizeCanvas();
-    const ctx = canvas.getContext('2d');
-    const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    grad.addColorStop(0, `rgb(${r1},${g1},${b1})`);
-    grad.addColorStop(1, `rgb(${r2},${g2},${b2})`);
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  } else {
-    // fallback: solid black
-    resizeCanvas();
-  }
-
-  function resizeCanvas() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  // animate icon in
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => iconEl.classList.add('show'));
-  });
-
-  // wait then go to login
-  await new Promise(r => setTimeout(r, 1800));
-
-  // fade out splash
-  document.getElementById('splash').style.transition = 'opacity 0.35s';
-  document.getElementById('splash').style.opacity = '0';
-  await new Promise(r => setTimeout(r, 350));
-  showScreen('login');
-  document.getElementById('splash').style.opacity = '';
-  document.getElementById('splash').style.transition = '';
-}
-
-// ── LOGIN ────────────────────────────────────────────────
-function formatPhone(input) {
-  let v = input.value.replace(/\D/g, '');
-  if (v.length > 10) v = v.slice(0, 10);
-  let formatted = '';
-  if (v.length > 0) formatted  = '(' + v.slice(0,3);
-  if (v.length > 3) formatted += ') ' + v.slice(3,6);
-  if (v.length > 6) formatted += '-' + v.slice(6,8);
-  if (v.length > 8) formatted += '-' + v.slice(8,10);
-  input.value = formatted;
-  document.getElementById('continueBtn').disabled = v.length < 10;
-}
-
-function goToApp() {
-  showScreen('app');
-  if (!folders.length) initFolders();
-}
-
-// ── DATA ─────────────────────────────────────────────────
-async function initFolders() {
+async function init() {
   try {
     const res = await fetch(`${API_BASE}/images`);
     if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
@@ -418,19 +191,17 @@ async function initFolders() {
         .map(f => ({ name: f.name, url: `${RAW_BASE}/images/${dir.name}/${f.name}` }));
       if (!imgFiles.length) return null;
       const meta = FOLDER_META[dir.name] || { name: dir.name.replace(/_/g,' '), url: '#' };
-      return { folder: dir.name, name: meta.name, url: meta.url, previewUrl: imgFiles[0].url, files: imgFiles };
+      return { folder: dir.name, name: meta.name, files: imgFiles, previewUrl: imgFiles[0].url };
     });
 
     folders = (await Promise.all(fetches)).filter(Boolean);
     if (!folders.length) { showError('Нет папок с изображениями.'); return; }
     renderList();
-  } catch (e) {
-    showError('Не удалось загрузить список.<br>' + e.message);
-  }
+  } catch(e) { showError('Не удалось загрузить список.<br>' + e.message); }
 }
 
 function pluralIcons(n) {
-  if (n % 10 === 1 && n % 100 !== 11) return `${n} иконка`;
+  if (n%10===1 && n%100!==11) return `${n} иконка`;
   if ([2,3,4].includes(n%10) && ![12,13,14].includes(n%100)) return `${n} иконки`;
   return `${n} иконок`;
 }
@@ -439,14 +210,12 @@ function renderList() {
   const wrap = document.getElementById('listWrap');
   const list = document.createElement('div');
   list.className = 'list'; list.id = 'bankList';
-
   folders.forEach(f => {
     const item = document.createElement('div');
     item.className = 'list-item';
     item.innerHTML = `
       <div class="bank-icon">
-        <img src="${f.previewUrl}" alt=""
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="${f.previewUrl}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="fallback" style="display:none">${f.name[0].toUpperCase()}</div>
       </div>
       <div class="bank-info">
@@ -460,7 +229,6 @@ function renderList() {
       </label>`;
     list.appendChild(item);
   });
-
   wrap.innerHTML = '';
   wrap.appendChild(list);
   document.getElementById('btnSection').style.display = '';
@@ -486,20 +254,17 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ── ICON → 1024×1024 PNG ─────────────────────────────────
-// Handles both raster (PNG/JPG) and SVG correctly
+// Конвертирует любой URL (PNG/JPG/SVG) в 1024×1024 PNG base64
 function urlToPng1024(url) {
   return new Promise(async resolve => {
     const SIZE = 1024;
     const canvas = document.createElement('canvas');
     canvas.width = SIZE; canvas.height = SIZE;
     const ctx = canvas.getContext('2d');
-
     const isSvg = /\.svg$/i.test(url.split('?')[0]);
 
-    if (isSvg) {
-      // Fetch SVG text, create blob URL — bypasses taint issues
-      try {
+    try {
+      if (isSvg) {
         const res = await fetch(url);
         if (!res.ok) { resolve(null); return; }
         const svgText = await res.text();
@@ -513,80 +278,223 @@ function urlToPng1024(url) {
         };
         img.onerror = () => { URL.revokeObjectURL(blobUrl); resolve(null); };
         img.src = blobUrl;
-      } catch { resolve(null); }
-    } else {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, SIZE, SIZE);
-        resolve(canvas.toDataURL('image/png').split(',')[1]);
-      };
-      img.onerror = () => resolve(null);
-      img.src = url;
-    }
+      } else {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0, SIZE, SIZE);
+          resolve(canvas.toDataURL('image/png').split(',')[1]);
+        };
+        img.onerror = () => resolve(null);
+        img.src = url;
+      }
+    } catch { resolve(null); }
   });
 }
 
-// ── GENERATE ─────────────────────────────────────────────
-async function generateProfile() {
-  const btn = document.getElementById('genBtn');
-  btn.disabled = true; btn.textContent = 'Генерация…';
-
-  const checks = [...document.querySelectorAll('#bankList input[type=checkbox]')];
-  const selected = folders.filter((_,i) => checks[i] && checks[i].checked);
-
-  const clips = [];
-
-  for (const folder of selected) {
-    for (const file of folder.files) {
-      const label = file.name.replace(/\.[^.]+$/, '');
-      const b64 = await urlToPng1024(file.url);
-
-      clips.push(`
-    <dict>
-      <key>PayloadType</key><string>com.apple.webClip.managed</string>
-      <key>PayloadIdentifier</key><string>ru.banks.icons.${folder.folder}.${label.replace(/[^a-zA-Z0-9]/g,'_')}</string>
-      <key>PayloadUUID</key><string>${crypto.randomUUID()}</string>
-      <key>PayloadVersion</key><integer>1</integer>
-      <key>Label</key><string>${label}</string>
-      <key>URL</key><string>${folder.url}</string>
-      <key>IsRemovable</key><false/>
-      <key>FullScreen</key><true/>${b64 ? `\n      <key>Icon</key><data>${b64}</data>` : ''}
-    </dict>`);
-    }
-  }
-
-  const plist = `<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0"><dict>
-  <key>PayloadDisplayName</key><string>Иконки банков</string>
-  <key>PayloadDescription</key><string>Добавляет иконки на домашний экран</string>
-  <key>PayloadIdentifier</key><string>ru.banks.icons.profile</string>
-  <key>PayloadUUID</key><string>${crypto.randomUUID()}</string>
-  <key>PayloadType</key><string>Configuration</string>
-  <key>PayloadVersion</key><integer>1</integer>
-  <key>PayloadContent</key><array>${clips.join('')}
-  </array>
-</dict></plist>`;
-
-  const blob = new Blob([plist], { type: 'application/x-apple-aspen-config' });
-  const blobUrl = URL.createObjectURL(blob);
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-  if (isIOS) {
-    window.location.href = blobUrl;
-    showToast('Открываем установку профиля…');
-  } else {
-    const a = document.createElement('a'); a.href = blobUrl; a.download = 'banks.mobileconfig'; a.click();
-    showToast('Профиль скачан — установите на iPhone');
-  }
-
-  setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
-  updateButton();
+// Извлекает цвет пикселя из base64 PNG по координатам
+function getPixelColor(b64, x, y, w, h) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      const [r,g,b] = c.getContext('2d').getImageData(x, y, 1, 1).data;
+      resolve(`rgb(${r},${g},${b})`);
+    };
+    img.onerror = () => resolve('#000');
+    img.src = 'data:image/png;base64,' + b64;
+  });
 }
 
-// ── BOOT ─────────────────────────────────────────────────
-runSplash();
+// Генерирует HTML для страницы-заглушки конкретной иконки
+// iconB64 — base64 PNG иконки, label — название
+function buildAppHtml(iconB64, label, topColor, bottomColor, splashPadding) {
+  // Экранируем спецсимволы для вставки в JS строку внутри data URI
+  const iconSrc = iconB64 ? `data:image/png;base64,${iconB64}` : '';
+
+  return `<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>${label}</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#000;font-family:-apple-system,'Helvetica Neue',sans-serif;overflow:hidden}
+#splash{
+  position:fixed;inset:0;
+  background:linear-gradient(to bottom,${topColor},${bottomColor});
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity 0.4s ease;
+}
+#splashIcon{
+  width:calc(100vw - ${splashPadding*2}px);
+  max-width:280px;
+  aspect-ratio:1;
+  border-radius:22%;
+  overflow:hidden;
+  box-shadow:0 12px 60px rgba(0,0,0,0.4);
+  opacity:0;transform:scale(0.75);
+  transition:opacity 0.45s ease,transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+}
+#splashIcon img{width:100%;height:100%;object-fit:cover;display:block}
+#splashIcon.show{opacity:1;transform:scale(1)}
+#main{
+  position:fixed;inset:0;background:#000;
+  display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top,44px) + 48px) 24px 0;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.35s ease;
+}
+#main.show{opacity:1;pointer-events:all}
+.title{font-size:32px;font-weight:700;letter-spacing:-0.5px;color:#fff;margin-bottom:8px}
+.sub{font-size:16px;color:rgba(255,255,255,0.55);margin-bottom:32px}
+.field{
+  display:flex;align-items:center;
+  background:#1c1c1e;border-radius:14px;
+  padding:0 18px;height:56px;margin-bottom:16px;
+}
+.field input{
+  flex:1;background:none;border:none;
+  color:#fff;font-size:17px;outline:none;
+  font-family:inherit;
+}
+.field input::placeholder{color:rgba(255,255,255,0.4)}
+.btn{
+  width:100%;height:56px;
+  background:#FFD60A;color:#000;
+  font-size:17px;font-weight:600;
+  border:none;border-radius:14px;cursor:pointer;
+  -webkit-appearance:none;
+  transition:opacity 0.15s,transform 0.1s;
+}
+.btn:active{opacity:0.85;transform:scale(0.98)}
+.btn:disabled{opacity:0.4}
+</style>
+
+</head>
+<body>
+<div id="splash">
+  <div id="splashIcon">${iconSrc ? `<img src="${iconSrc}" alt="">` : ''}</div>
+</div>
+<div id="main">
+  <div class="title">Введите телефон</div>
+  <div class="sub">Чтобы войти или стать клиентом</div>
+  <div class="field">
+    <input type="tel" id="phone" placeholder="Телефон" maxlength="18" inputmode="numeric" oninput="fmt(this)">
+  </div>
+  <button class="btn" id="btn" disabled>Продолжить</button>
+</div>
+<script>
+function fmt(i){
+  var v=i.value.replace(/\\D/g,'');
+  if(v.length>10)v=v.slice(0,10);
+  var f='';
+  if(v.length>0)f='('+v.slice(0,3);
+  if(v.length>3)f+=') '+v.slice(3,6);
+  if(v.length>6)f+='-'+v.slice(6,8);
+  if(v.length>8)f+='-'+v.slice(8,10);
+  i.value=f;
+  document.getElementById('btn').disabled=v.length<10;
+}
+window.addEventListener('load',function(){
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      document.getElementById('splashIcon').classList.add('show');
+    });
+  });
+  setTimeout(function(){
+    var s=document.getElementById('splash');
+    s.style.opacity='0';
+    setTimeout(function(){
+      s.style.display='none';
+      document.getElementById('main').classList.add('show');
+    },400);
+  },1800);
+});
+<\/script>
+</body>
+</html>`;
+}
+
+async function generateProfile() {
+const btn = document.getElementById(‘genBtn’);
+btn.disabled = true; btn.textContent = ‘Генерация…’;
+
+const checks = […document.querySelectorAll(’#bankList input[type=checkbox]’)];
+const selected = folders.filter((_,i) => checks[i] && checks[i].checked);
+
+const clips = [];
+
+for (const folder of selected) {
+for (const file of folder.files) {
+const label = file.name.replace(/.[^.]+$/, ‘’);
+
+```
+  // 1. конвертируем иконку в 1024×1024 PNG
+  const iconB64 = await urlToPng1024(file.url);
+
+  // 2. извлекаем цвета для градиента
+  let topColor = '#000', bottomColor = '#000';
+  if (iconB64) {
+    topColor    = await getPixelColor(iconB64, 512, 0,   1024, 1024);
+    bottomColor = await getPixelColor(iconB64, 512, 1023, 1024, 1024);
+  }
+
+  // 3. строим HTML страницы и кодируем в data URI
+  const html = buildAppHtml(iconB64, label, topColor, bottomColor, SPLASH_PADDING);
+  const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+
+  clips.push(`
+<dict>
+  <key>PayloadType</key><string>com.apple.webClip.managed</string>
+  <key>PayloadIdentifier</key><string>ru.banks.icons.${folder.folder}.${label.replace(/[^a-zA-Z0-9]/g,'_')}</string>
+  <key>PayloadUUID</key><string>${crypto.randomUUID()}</string>
+  <key>PayloadVersion</key><integer>1</integer>
+  <key>Label</key><string>${label}</string>
+  <key>URL</key><string>${dataUrl}</string>
+  <key>IsRemovable</key><false/>
+  <key>FullScreen</key><true/>${iconB64 ? `\n      <key>Icon</key><data>${iconB64}</data>` : ''}
+</dict>`);
+}
+```
+
+}
+
+const plist = `<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+
+<plist version="1.0"><dict>
+<key>PayloadDisplayName</key><string>Иконки банков</string>
+<key>PayloadDescription</key><string>Добавляет иконки на домашний экран</string>
+<key>PayloadIdentifier</key><string>ru.banks.icons.profile</string>
+<key>PayloadUUID</key><string>${crypto.randomUUID()}</string>
+<key>PayloadType</key><string>Configuration</string>
+<key>PayloadVersion</key><integer>1</integer>
+<key>PayloadContent</key><array>${clips.join(’’)}
+</array>
+</dict></plist>`;
+
+const blob = new Blob([plist], { type: ‘application/x-apple-aspen-config’ });
+const blobUrl = URL.createObjectURL(blob);
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+if (isIOS) {
+window.location.href = blobUrl;
+showToast(‘Открываем установку профиля…’);
+} else {
+const a = document.createElement(‘a’); a.href = blobUrl; a.download = ‘banks.mobileconfig’; a.click();
+showToast(‘Профиль скачан — установите на iPhone’);
+}
+
+setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+updateButton();
+}
+
+init();
 </script>
 
 </body>
