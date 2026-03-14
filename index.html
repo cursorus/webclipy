@@ -168,25 +168,16 @@ const FOLDER_META = {
 
 let folders = [];
 
-// fetch с таймаутом
-function fetchWithTimeout(url, ms = 8000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), ms);
-  return fetch(url, { signal: controller.signal })
-    .finally(() => clearTimeout(timer));
-}
-
 async function init() {
   try {
-    const res = await fetchWithTimeout(`${API_BASE}/images`);
+    const res = await fetch(`${API_BASE}/images`);
     if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
     const entries = await res.json();
     const dirs = entries.filter(e => e.type === 'dir');
     if (!dirs.length) { showError('Папка images/ пуста.'); return; }
 
-    // загружаем содержимое каждой папки параллельно
-    const results = await Promise.allSettled(dirs.map(async dir => {
-      const r = await fetchWithTimeout(`${API_BASE}/images/${dir.name}`);
+    const fetches = dirs.map(async dir => {
+      const r = await fetch(`${API_BASE}/images/${dir.name}`);
       if (!r.ok) return null;
       const files = await r.json();
       const imgFiles = files
@@ -195,13 +186,11 @@ async function init() {
       if (!imgFiles.length) return null;
       const meta = FOLDER_META[dir.name] || { name: dir.name.replace(/_/g, ' '), url: '#' };
       return { folder: dir.name, name: meta.name, files: imgFiles, previewUrl: imgFiles[0].url };
-    }));
+    });
 
-    folders = results
-      .filter(r => r.status === 'fulfilled' && r.value)
-      .map(r => r.value);
-
-    if (!folders.length) { showError('Нет папок с изображениями.'); return; }
+    const results = (await Promise.all(fetches)).filter(Boolean);
+    if (!results.length) { showError('Нет папок с изображениями.'); return; }
+    folders = results;
     renderList();
   } catch (e) {
     showError('Не удалось загрузить список.<br>' + e.message);
@@ -272,9 +261,7 @@ function urlToPng1024(url) {
     const canvas = document.createElement('canvas');
     canvas.width = SIZE; canvas.height = SIZE;
     const ctx = canvas.getContext('2d');
-
     try {
-      // для SVG — fetch текст и создаём blob URL
       if (/\.svg$/i.test(url.split('?')[0])) {
         const res = await fetch(url);
         if (!res.ok) { resolve(null); return; }
@@ -303,7 +290,6 @@ function urlToPng1024(url) {
   });
 }
 
-// Берёт цвет пикселя [x,y] из base64 PNG размером [w,h]
 function getPixelColor(b64, x, y, w, h) {
   return new Promise(resolve => {
     const img = new Image();
@@ -319,7 +305,6 @@ function getPixelColor(b64, x, y, w, h) {
   });
 }
 
-// Генерирует HTML страницы-заглушки (splash + форма телефона)
 function buildAppHtml(iconB64, label, topColor, bottomColor, padding) {
   const iconSrc = iconB64 ? `data:image/png;base64,${iconB64}` : '';
   return `<!DOCTYPE html>
@@ -331,29 +316,11 @@ function buildAppHtml(iconB64, label, topColor, bottomColor, padding) {
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;background:#000;font-family:-apple-system,'Helvetica Neue',sans-serif;overflow:hidden}
-#splash{
-  position:fixed;inset:0;
-  background:linear-gradient(to bottom,${topColor},${bottomColor});
-  display:flex;align-items:center;justify-content:center;
-  transition:opacity 0.4s ease;
-}
-#icon{
-  width:calc(100vw - ${padding * 2}px);
-  max-width:280px;aspect-ratio:1;
-  border-radius:22%;overflow:hidden;
-  box-shadow:0 12px 60px rgba(0,0,0,0.4);
-  opacity:0;transform:scale(0.75);
-  transition:opacity 0.45s ease,transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
-}
+#splash{position:fixed;inset:0;background:linear-gradient(to bottom,${topColor},${bottomColor});display:flex;align-items:center;justify-content:center;transition:opacity 0.4s ease}
+#icon{width:calc(100vw - ${padding*2}px);max-width:280px;aspect-ratio:1;border-radius:22%;overflow:hidden;box-shadow:0 12px 60px rgba(0,0,0,0.4);opacity:0;transform:scale(0.75);transition:opacity 0.45s ease,transform 0.45s cubic-bezier(0.34,1.56,0.64,1)}
 #icon img{width:100%;height:100%;object-fit:cover;display:block}
 #icon.show{opacity:1;transform:scale(1)}
-#main{
-  position:fixed;inset:0;background:#000;
-  display:flex;flex-direction:column;
-  padding:calc(env(safe-area-inset-top,44px) + 48px) 24px 0;
-  opacity:0;pointer-events:none;
-  transition:opacity 0.35s ease;
-}
+#main{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,44px) + 48px) 24px 0;opacity:0;pointer-events:none;transition:opacity 0.35s ease}
 #main.show{opacity:1;pointer-events:all}
 .title{font-size:32px;font-weight:700;letter-spacing:-0.5px;color:#fff;margin-bottom:8px}
 .sub{font-size:16px;color:rgba(255,255,255,0.55);margin-bottom:32px}
@@ -367,44 +334,16 @@ html,body{height:100%;background:#000;font-family:-apple-system,'Helvetica Neue'
 
 </head>
 <body>
-<div id="splash">
-  <div id="icon">${iconSrc ? `<img src="${iconSrc}">` : ''}</div>
-</div>
+<div id="splash"><div id="icon">${iconSrc ? `<img src="${iconSrc}">` : ''}</div></div>
 <div id="main">
   <div class="title">Введите телефон</div>
   <div class="sub">Чтобы войти или стать клиентом</div>
-  <div class="field">
-    <input type="tel" id="ph" placeholder="Телефон" maxlength="18" inputmode="numeric" oninput="fmt(this)">
-  </div>
+  <div class="field"><input type="tel" id="ph" placeholder="Телефон" maxlength="18" inputmode="numeric" oninput="fmt(this)"></div>
   <button class="btn" id="btn" disabled>Продолжить</button>
 </div>
 <script>
-function fmt(i){
-  var v=i.value.replace(/\\D/g,'');
-  if(v.length>10)v=v.slice(0,10);
-  var f='';
-  if(v.length>0)f='('+v.slice(0,3);
-  if(v.length>3)f+=') '+v.slice(3,6);
-  if(v.length>6)f+='-'+v.slice(6,8);
-  if(v.length>8)f+='-'+v.slice(8,10);
-  i.value=f;
-  document.getElementById('btn').disabled=v.length<10;
-}
-window.addEventListener('load',function(){
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      document.getElementById('icon').classList.add('show');
-    });
-  });
-  setTimeout(function(){
-    var s=document.getElementById('splash');
-    s.style.opacity='0';
-    setTimeout(function(){
-      s.style.display='none';
-      document.getElementById('main').classList.add('show');
-    },400);
-  },1800);
-});
+function fmt(i){var v=i.value.replace(/\\D/g,'');if(v.length>10)v=v.slice(0,10);var f='';if(v.length>0)f='('+v.slice(0,3);if(v.length>3)f+=') '+v.slice(3,6);if(v.length>6)f+='-'+v.slice(6,8);if(v.length>8)f+='-'+v.slice(8,10);i.value=f;document.getElementById('btn').disabled=v.length<10;}
+window.addEventListener('load',function(){requestAnimationFrame(function(){requestAnimationFrame(function(){document.getElementById('icon').classList.add('show');});});setTimeout(function(){var s=document.getElementById('splash');s.style.opacity='0';setTimeout(function(){s.style.display='none';document.getElementById('main').classList.add('show');},400);},1800);});
 <\/script>
 </body>
 </html>`;
@@ -416,24 +355,21 @@ btn.disabled = true; btn.textContent = ‘Генерация…’;
 
 const checks = […document.querySelectorAll(’#bankList input[type=checkbox]’)];
 const selected = folders.filter((_, i) => checks[i] && checks[i].checked);
-
 const clips = [];
 
 for (const folder of selected) {
 for (const file of folder.files) {
 const label = file.name.replace(/.[^.]+$/, ‘’);
 const iconB64 = await urlToPng1024(file.url);
+let topColor = ‘#000’, bottomColor = ‘#111’;
+if (iconB64) {
+topColor    = await getPixelColor(iconB64, 512, 0,    1024, 1024);
+bottomColor = await getPixelColor(iconB64, 512, 1023, 1024, 1024);
+}
+const html    = buildAppHtml(iconB64, label, topColor, bottomColor, SPLASH_PADDING);
+const dataUrl = ‘data:text/html;charset=utf-8,’ + encodeURIComponent(html);
 
 ```
-  let topColor = '#000', bottomColor = '#111';
-  if (iconB64) {
-    topColor    = await getPixelColor(iconB64, 512, 0,    1024, 1024);
-    bottomColor = await getPixelColor(iconB64, 512, 1023, 1024, 1024);
-  }
-
-  const html    = buildAppHtml(iconB64, label, topColor, bottomColor, SPLASH_PADDING);
-  const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
-
   clips.push(`
 <dict>
   <key>PayloadType</key><string>com.apple.webClip.managed</string>
