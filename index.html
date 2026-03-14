@@ -168,12 +168,20 @@ const FOLDER_META = {
 
 let folders = [];
 
+function dbg(msg) {
+  document.getElementById('listWrap').innerHTML =
+    `<div class="loading-wrap"><div class="spinner"></div>${msg}</div>`;
+}
+
 async function init() {
   try {
+    dbg('Шаг 1: запрос к GitHub API…');
     const res = await fetch(`${API_BASE}/images`);
+    dbg(`Шаг 2: ответ ${res.status}`);
     if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
     const entries = await res.json();
     const dirs = entries.filter(e => e.type === 'dir');
+    dbg(`Шаг 3: найдено папок: ${dirs.length}`);
     if (!dirs.length) { showError('Папка images/ пуста.'); return; }
 
     const fetches = dirs.map(async dir => {
@@ -188,12 +196,14 @@ async function init() {
       return { folder: dir.name, name: meta.name, files: imgFiles, previewUrl: imgFiles[0].url };
     });
 
+    dbg('Шаг 4: загружаем содержимое папок…');
     const results = (await Promise.all(fetches)).filter(Boolean);
+    dbg(`Шаг 5: папок с файлами: ${results.length}`);
     if (!results.length) { showError('Нет папок с изображениями.'); return; }
     folders = results;
     renderList();
   } catch (e) {
-    showError('Не удалось загрузить список.<br>' + e.message);
+    showError('Ошибка: ' + e.message);
   }
 }
 
